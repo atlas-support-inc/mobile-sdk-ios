@@ -8,8 +8,8 @@
 
 Pod::Spec.new do |s|
   s.name             = 'AtlasSupportSDK'
-  s.version          = '0.1.0'
-  s.summary          = 'A short description of AtlasSupportSDK.'
+  s.version          = '0.0.1'
+  s.summary          = 'Mobile version of getatlas.io embed widget.'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -18,19 +18,20 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+Mobile version of getatlas.io embed real-time chat widget with file attachments, embed forms, auto responses, and integrated Help Center articles.
                        DESC
 
-  s.homepage         = 'https://github.com/494013/AtlasSupportSDK'
+  s.homepage         = 'https://getatlas.io'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { '494013' => 'termosa.stanislav@gmail.com' }
-  s.source           = { :git => 'https://github.com/494013/AtlasSupportSDK.git', :tag => s.version.to_s }
+  s.author           = { 'Atlas Support Inc' => 'engineering@getatlas.io' }
+  s.source           = { :git => 'https://github.com/atlas-support-inc/embed.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.ios.deployment_target = '10.0'
+  s.ios.deployment_target = '12.0'
 
-  s.source_files = 'AtlasSupportSDK/Classes/**/*'
+  s.source_files = 'Sources/**/*'
+  s.swift_version = '4.0'
   
   # s.resource_bundles = {
   #   'AtlasSupportSDK' => ['AtlasSupportSDK/Assets/*.png']

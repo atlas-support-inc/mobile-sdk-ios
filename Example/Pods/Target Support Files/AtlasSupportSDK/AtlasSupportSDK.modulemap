@@ -1,0 +1,6 @@
+framework module AtlasSupportSDK {
+  umbrella header "AtlasSupportSDK-umbrella.h"
+
+  export *
+  module * { export * }
+}

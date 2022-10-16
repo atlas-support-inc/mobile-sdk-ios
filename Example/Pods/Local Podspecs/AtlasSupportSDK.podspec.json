@@ -1,0 +1,22 @@
+{
+  "name": "AtlasSupportSDK",
+  "version": "0.1.0",
+  "summary": "A short description of AtlasSupportSDK.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/494013/AtlasSupportSDK",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "494013": "termosa.stanislav@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/494013/AtlasSupportSDK.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "10.0"
+  },
+  "source_files": "AtlasSupportSDK/Classes/**/*"
+}
