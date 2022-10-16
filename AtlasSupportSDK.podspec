@@ -25,7 +25,7 @@ Mobile version of getatlas.io embed real-time chat widget with file attachments,
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Atlas Support Inc' => 'engineering@getatlas.io' }
-  s.source           = { :git => 'https://github.com/atlas-support-inc/embed.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/atlas-support-inc/mobile-sdk-ios.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '12.0'
