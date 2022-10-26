@@ -1,6 +1,6 @@
 import WebKit
 
-var urlBase = "http://localhost:3001/simple/embed.html"
+var urlBase = "https://atlas-embed-termosa.vercel.app/"
 
 public class AtlasSupport: WKWebView {
     
