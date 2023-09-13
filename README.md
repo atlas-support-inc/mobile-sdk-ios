@@ -6,7 +6,7 @@
 
 ## Example
 
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
+To run the example project, clone the repo and run `pod install` from the Example directory first.
 
 ## Installation
 
@@ -20,7 +20,3 @@ pod 'AtlasSupportSDK'
 ## Author
 
 Atlas Support Inc, engineering@getatlas.io
-
-## License
-
-AtlasSupportSDK is available under the MIT license. See the LICENSE file for more info.
