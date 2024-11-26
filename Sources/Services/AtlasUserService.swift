@@ -42,6 +42,7 @@ internal class AtlasUserService {
                                               name: atlasUser.name,
                                               email: atlasUser.email)
                     self?.atlasUser = atlasUser
+                    self?.setNewUserId(atlasUser.atlasId ?? "")
                     completion(.success(atlasUser))
                 case .failure(let error):
                     completion(.failure(error))

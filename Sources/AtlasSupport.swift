@@ -38,8 +38,12 @@ class AtlasSDK {
                          userHash: String? = nil,
                          userName: String? = nil,
                          userEmail: String? = nil) {
+        guard !appId.isEmpty else {
+            print("AtlasSDK Error: App ID cannot be empty.")
+            return
+        }
         atlasUserService.restorUser(
-            appId: AtlasSDK.appId,
+            appId: appId,
             atlasUser: AtlasUser(
                 id: userId ?? "",
                 hash: userHash ?? "",

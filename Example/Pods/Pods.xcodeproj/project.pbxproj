@@ -50,6 +50,7 @@
 		42D5B8712CF65E94004E8FBA /* LoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D5B8702CF65E94004E8FBA /* LoginRequest.swift */; };
 		42D5B8732CF65EAD004E8FBA /* LoginResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D5B8722CF65EAD004E8FBA /* LoginResponse.swift */; };
 		42D5B8752CF65EC6004E8FBA /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D5B8742CF65EC6004E8FBA /* NetworkError.swift */; };
+		42D5B8782CF66F1B004E8FBA /* WebSocketService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D5B8772CF66F1B004E8FBA /* WebSocketService.swift */; };
 		48C10B9A539A0C5ABB40C060BCFA6A5D /* QuickTestObservation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887758EE2D86731E64552DE35DC0035B /* QuickTestObservation.swift */; };
 		4A457767C9968D139BD8AAD877DFC117 /* ThrowError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1C96AA6B530E65DF71C6A98C66BAB4 /* ThrowError.swift */; settings = {COMPILER_FLAGS = "-DPRODUCT_NAME=Nimble/Nimble"; }; };
 		4AB3E5CA752435B21E7EBC018EE8CE58 /* ExampleMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7257CDD5305E867BF5296DC8E03BF3F6 /* ExampleMetadata.swift */; };
@@ -220,6 +221,7 @@
 		42D5B8702CF65E94004E8FBA /* LoginRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRequest.swift; sourceTree = "<group>"; };
 		42D5B8722CF65EAD004E8FBA /* LoginResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponse.swift; sourceTree = "<group>"; };
 		42D5B8742CF65EC6004E8FBA /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		42D5B8772CF66F1B004E8FBA /* WebSocketService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketService.swift; sourceTree = "<group>"; };
 		440DC50D2334546C99DBFC2B6E15B31B /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		4A68929567C7B44CBB5DE74D57741AB4 /* Pods-AtlasSupportSDK_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AtlasSupportSDK_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		5100F28739CC7C42E629FEFA59D6EDD6 /* ToSucceed.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ToSucceed.swift; path = Sources/Nimble/Matchers/ToSucceed.swift; sourceTree = "<group>"; };
@@ -439,6 +441,7 @@
 		42D5B8612CF64E78004E8FBA /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				42D5B8762CF66EFB004E8FBA /* WebSocket */,
 				42D5B8672CF65759004E8FBA /* LocalStorage */,
 				42D5B8662CF6574F004E8FBA /* Network */,
 				42D5B8642CF6566A004E8FBA /* AtlasUserService.swift */,
@@ -480,6 +483,14 @@
 				42D5B8722CF65EAD004E8FBA /* LoginResponse.swift */,
 			);
 			path = NetworkDataModels;
+			sourceTree = "<group>";
+		};
+		42D5B8762CF66EFB004E8FBA /* WebSocket */ = {
+			isa = PBXGroup;
+			children = (
+				42D5B8772CF66F1B004E8FBA /* WebSocketService.swift */,
+			);
+			path = WebSocket;
 			sourceTree = "<group>";
 		};
 		48E644B71AAE30F7A0800A3E597207D1 /* Pods */ = {
@@ -1089,6 +1100,7 @@
 				42D5B85E2CF64751004E8FBA /* AtlasViewController.swift in Sources */,
 				42D5B8632CF64E8D004E8FBA /* AtlasNetworkURLs.swift in Sources */,
 				15E3917528FC66EE00B08DBB /* AtlasSupport.swift in Sources */,
+				42D5B8782CF66F1B004E8FBA /* WebSocketService.swift in Sources */,
 				42D5B8752CF65EC6004E8FBA /* NetworkError.swift in Sources */,
 				42D5B8732CF65EAD004E8FBA /* LoginResponse.swift in Sources */,
 				42D5B86E2CF65A72004E8FBA /* AtlasUser.swift in Sources */,
