@@ -1,5 +1,5 @@
 //
-//  NetworkURLs.swift
+//  AtlasNetworkURLs.swift
 //  AtlasSupportSDK
 //
 //  Created by Andrey Doroshko on 11/26/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum NetworkURLs {
+enum AtlasNetworkURLs {
     // https://openlibrary.org/subjects/love.json?limit=20
     static let scheme = "https"
     static let ATLAS_WIDGET_BASE_URL = "embed.atlas.so"
@@ -18,4 +18,6 @@ enum NetworkURLs {
     static let PARAM_USER_HASH = "userHash"
     static let PARAM_USER_NAME = "userName"
     static let PARAM_USER_EMAIL = "userEmail"
+    
+    static let LOGIN_URL_PATH = "/client-app/company/identify"
 }
