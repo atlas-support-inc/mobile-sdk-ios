@@ -10,3 +10,45 @@ public class AtlasSupport: WKWebView {
         load(URLRequest(url: url))
     }
 }
+
+class AtlasSDK {
+    
+    // Private initializer prevents instances
+    private init() {}
+    
+    static let sdkVersion = "1.0.0"
+    
+    // The appId is empty by default and must be set before using getAtlasViewController() or any other public methods.
+    private static var appId: String = ""
+    private static let atlasSDKQueue = DispatchQueue(label: "com.atlasSDK",
+                                                     attributes: .concurrent)
+
+    static func setAppId(_ appId: String) {
+        guard !appId.isEmpty else {
+            print("AtlasSDK Error: App ID cannot be empty.")
+            return
+        }
+        atlasSDKQueue.async(flags: .barrier) {
+            AtlasSDK.appId = appId
+        }
+    }
+    
+    static func identify(userId: String? = nil,
+                         userHash: String? = nil,
+                         userName: String? = nil,
+                         userEmail: String? = nil) {
+    }
+    
+    static func getAtlassViewController() -> UIViewController? {
+        guard !appId.isEmpty else {
+            print("AtlasSDK Error: App ID cannot be empty.")
+            return nil
+        }
+        
+        let viewModel = AtlasViewModel(appId: appId)
+        let viewController = AtlasViewController(viewModel: viewModel)
+        
+        return viewController
+    }
+}
+
