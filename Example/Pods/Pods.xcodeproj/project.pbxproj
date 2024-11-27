@@ -50,7 +50,10 @@
 		42D5B8712CF65E94004E8FBA /* LoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D5B8702CF65E94004E8FBA /* LoginRequest.swift */; };
 		42D5B8732CF65EAD004E8FBA /* LoginResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D5B8722CF65EAD004E8FBA /* LoginResponse.swift */; };
 		42D5B8752CF65EC6004E8FBA /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D5B8742CF65EC6004E8FBA /* NetworkError.swift */; };
-		42D5B8782CF66F1B004E8FBA /* WebSocketService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D5B8772CF66F1B004E8FBA /* WebSocketService.swift */; };
+		42D5B8782CF66F1B004E8FBA /* AtlasWebSocketService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D5B8772CF66F1B004E8FBA /* AtlasWebSocketService.swift */; };
+		42D5B87A2CF694B5004E8FBA /* AtlasWebSocketMessageParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D5B8792CF694B5004E8FBA /* AtlasWebSocketMessageParser.swift */; };
+		42D5B87C2CF694FC004E8FBA /* AtlasWebSocketRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D5B87B2CF694FC004E8FBA /* AtlasWebSocketRequest.swift */; };
+		42D5B87F2CF695F6004E8FBA /* WebSocketMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D5B87E2CF695F6004E8FBA /* WebSocketMessage.swift */; };
 		48C10B9A539A0C5ABB40C060BCFA6A5D /* QuickTestObservation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887758EE2D86731E64552DE35DC0035B /* QuickTestObservation.swift */; };
 		4A457767C9968D139BD8AAD877DFC117 /* ThrowError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1C96AA6B530E65DF71C6A98C66BAB4 /* ThrowError.swift */; settings = {COMPILER_FLAGS = "-DPRODUCT_NAME=Nimble/Nimble"; }; };
 		4AB3E5CA752435B21E7EBC018EE8CE58 /* ExampleMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7257CDD5305E867BF5296DC8E03BF3F6 /* ExampleMetadata.swift */; };
@@ -221,7 +224,10 @@
 		42D5B8702CF65E94004E8FBA /* LoginRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRequest.swift; sourceTree = "<group>"; };
 		42D5B8722CF65EAD004E8FBA /* LoginResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponse.swift; sourceTree = "<group>"; };
 		42D5B8742CF65EC6004E8FBA /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
-		42D5B8772CF66F1B004E8FBA /* WebSocketService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketService.swift; sourceTree = "<group>"; };
+		42D5B8772CF66F1B004E8FBA /* AtlasWebSocketService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtlasWebSocketService.swift; sourceTree = "<group>"; };
+		42D5B8792CF694B5004E8FBA /* AtlasWebSocketMessageParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtlasWebSocketMessageParser.swift; sourceTree = "<group>"; };
+		42D5B87B2CF694FC004E8FBA /* AtlasWebSocketRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtlasWebSocketRequest.swift; sourceTree = "<group>"; };
+		42D5B87E2CF695F6004E8FBA /* WebSocketMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketMessage.swift; sourceTree = "<group>"; };
 		440DC50D2334546C99DBFC2B6E15B31B /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		4A68929567C7B44CBB5DE74D57741AB4 /* Pods-AtlasSupportSDK_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AtlasSupportSDK_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		5100F28739CC7C42E629FEFA59D6EDD6 /* ToSucceed.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ToSucceed.swift; path = Sources/Nimble/Matchers/ToSucceed.swift; sourceTree = "<group>"; };
@@ -470,6 +476,7 @@
 		42D5B86C2CF65A5B004E8FBA /* DataModels */ = {
 			isa = PBXGroup;
 			children = (
+				42D5B87D2CF695D8004E8FBA /* WebSocketDataModels */,
 				42D5B86F2CF65E84004E8FBA /* NetworkDataModels */,
 				42D5B86D2CF65A72004E8FBA /* AtlasUser.swift */,
 			);
@@ -488,9 +495,19 @@
 		42D5B8762CF66EFB004E8FBA /* WebSocket */ = {
 			isa = PBXGroup;
 			children = (
-				42D5B8772CF66F1B004E8FBA /* WebSocketService.swift */,
+				42D5B8772CF66F1B004E8FBA /* AtlasWebSocketService.swift */,
+				42D5B8792CF694B5004E8FBA /* AtlasWebSocketMessageParser.swift */,
 			);
 			path = WebSocket;
+			sourceTree = "<group>";
+		};
+		42D5B87D2CF695D8004E8FBA /* WebSocketDataModels */ = {
+			isa = PBXGroup;
+			children = (
+				42D5B87E2CF695F6004E8FBA /* WebSocketMessage.swift */,
+				42D5B87B2CF694FC004E8FBA /* AtlasWebSocketRequest.swift */,
+			);
+			path = WebSocketDataModels;
 			sourceTree = "<group>";
 		};
 		48E644B71AAE30F7A0800A3E597207D1 /* Pods */ = {
@@ -1091,17 +1108,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				42D5B87A2CF694B5004E8FBA /* AtlasWebSocketMessageParser.swift in Sources */,
 				42D5B8602CF64781004E8FBA /* AtlasViewModel.swift in Sources */,
 				9A5B89288DB07366E0B281BB468E22A4 /* AtlasSupportSDK-dummy.m in Sources */,
 				42D5B8692CF6576F004E8FBA /* AtlasLocalStorageService.swift in Sources */,
 				42D5B8712CF65E94004E8FBA /* LoginRequest.swift in Sources */,
+				42D5B87C2CF694FC004E8FBA /* AtlasWebSocketRequest.swift in Sources */,
 				42D5B8652CF6566A004E8FBA /* AtlasUserService.swift in Sources */,
 				42D5B86B2CF658EA004E8FBA /* AtlasNetworkService.swift in Sources */,
 				42D5B85E2CF64751004E8FBA /* AtlasViewController.swift in Sources */,
 				42D5B8632CF64E8D004E8FBA /* AtlasNetworkURLs.swift in Sources */,
 				15E3917528FC66EE00B08DBB /* AtlasSupport.swift in Sources */,
-				42D5B8782CF66F1B004E8FBA /* WebSocketService.swift in Sources */,
+				42D5B8782CF66F1B004E8FBA /* AtlasWebSocketService.swift in Sources */,
 				42D5B8752CF65EC6004E8FBA /* NetworkError.swift in Sources */,
+				42D5B87F2CF695F6004E8FBA /* WebSocketMessage.swift in Sources */,
 				42D5B8732CF65EAD004E8FBA /* LoginResponse.swift in Sources */,
 				42D5B86E2CF65A72004E8FBA /* AtlasUser.swift in Sources */,
 			);
@@ -1379,7 +1399,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/AtlasSupportSDK/AtlasSupportSDK-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/AtlasSupportSDK/AtlasSupportSDK-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MODULEMAP_FILE = "Target Support Files/AtlasSupportSDK/AtlasSupportSDK.modulemap";
 				PRODUCT_MODULE_NAME = AtlasSupportSDK;
@@ -1412,7 +1432,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/AtlasSupportSDK/AtlasSupportSDK-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/AtlasSupportSDK/AtlasSupportSDK-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MODULEMAP_FILE = "Target Support Files/AtlasSupportSDK/AtlasSupportSDK.modulemap";
 				PRODUCT_MODULE_NAME = AtlasSupportSDK;

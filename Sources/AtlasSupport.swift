@@ -19,7 +19,7 @@ class AtlasSDK {
     static let sdkVersion = "1.0.0"
     
     // The appId is empty by default and must be set before using getAtlasViewController() or any other public methods.
-    private static var appId: String = ""
+    static var appId: String = ""
     private static let atlasUserService = AtlasUserService()
     private static let atlasSDKQueue = DispatchQueue(label: "com.atlasSDK",
                                                      attributes: .concurrent)

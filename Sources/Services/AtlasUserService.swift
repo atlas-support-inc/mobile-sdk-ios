@@ -18,10 +18,9 @@ internal class AtlasUserService {
     }
     private let localStorage = AtlasLocalStorageService.shared
     private let networkService = AtlasNetworkService()
+    private let webSocketService = AtlasWebSocketService()
     
-    init() {
-        self.userId = localStorage.getUserId()
-    }
+    init() { self.userId = localStorage.getUserId() }
     
     func setNewUserId(_ newUserId: String) {
         self.userId = newUserId
@@ -51,12 +50,29 @@ internal class AtlasUserService {
     }
     
     func subscribeToWatchStats() {
+        guard let userId = self.userId else {
+            print("AtlasSDK Error: Failed to establish web socket connection. userId is not defined")
+            return
+        }
         
+        webSocketService.close()
+        webSocketService.setWebSocketMessageHandler(self)
+        webSocketService.connect(atlasId: userId)
     }
     
     func logout() {
         userId = nil
         atlasUser = nil
         localStorage.removeUserId()
+    }
+}
+
+extension AtlasUserService: AtlasWebSocketServiceDelegate {
+    func onNewMessage(_ message: WebSocketMessage) {
+        
+    }
+    
+    func onError(_ error: any Error) {
+        
     }
 }

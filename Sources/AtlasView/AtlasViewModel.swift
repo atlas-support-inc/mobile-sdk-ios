@@ -19,7 +19,7 @@ class AtlasViewModel {
     
     func atlasURL() -> URLRequest? {
         var urlComponents = URLComponents()
-        urlComponents.scheme = AtlasNetworkURLs.scheme
+        urlComponents.scheme = AtlasNetworkURLs.SCHEME
         urlComponents.host = AtlasNetworkURLs.ATLAS_WIDGET_BASE_URL
         
         urlComponents.queryItems = [
@@ -41,6 +41,7 @@ class AtlasViewModel {
         
     func onAtlasScriptMessage(_ message: String,
                               _ completion: @escaping (Bool) -> ()) {
+
         let atlasUser = AtlasUser(id: userService.atlasUser?.id ?? "",
                                   hash: userService.atlasUser?.hash ?? "",
                                   atlasId: userService.atlasUser?.atlasId,
