@@ -46,7 +46,7 @@ class AtlasViewController: UIViewController {
         let webConfiguration = WKWebViewConfiguration()
         let contentController = WKUserContentController()
         /// In JavaScript window.webkit.messageHandlers.atlasiOSHandler.postMessage()
-        contentController.add(self, name: "atlasiOSHandler")
+        contentController.add(self, name: "atlas")
         webConfiguration.userContentController = contentController
         
         webView = WKWebView(frame: .zero, configuration: webConfiguration)
