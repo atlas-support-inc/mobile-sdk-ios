@@ -1,5 +1,5 @@
 //
-//  NetworkError.swift
+//  AtlasNetworkError.swift
 //  AtlasSupportSDK
 //
 //  Created by Andrey Doroshko on 11/26/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum NetworkError: Error {
+enum AtlasNetworkError: Error {
     case invalidURL(String)
     case nerworkError(String)
     case noDataRecived(String)

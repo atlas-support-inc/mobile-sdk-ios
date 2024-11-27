@@ -1,5 +1,5 @@
 //
-//  LoginRequest.swift
+//  AtlasLoginRequest.swift
 //  AtlasSupportSDK
 //
 //  Created by Andrey Doroshko on 11/26/24.
@@ -7,10 +7,10 @@
 
 import Foundation
 
-struct LoginRequest: Codable {
+struct AtlasLoginRequest: Codable {
     let appId: String
-    let userId: String
-    let userHash: String
+    let userId: String?
+    let userHash: String?
     let userName: String?
     let userEmail: String?
     

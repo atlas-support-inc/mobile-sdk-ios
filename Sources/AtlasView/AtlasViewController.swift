@@ -31,11 +31,12 @@ class AtlasViewController: UIViewController {
     }
     
     func loadAtlasWebApp() {
-        // Do not reload if previous userId is equal to new userId for userService
-        if userId == viewModel.userService.userId { return }
+        /// Do not reload if previous userId is equal to new userId for userService
+        if userId == viewModel.userService.atlasId { return }
         guard let urlRequest = viewModel.atlasURL() else { return }
-        // Save what userId is loaded night now. We chek if we need to reload next time when this method called
-        self.userId = viewModel.userService.userId ?? ""
+        /// Save what userId is loaded night now. Compare loaded and userService userIds 
+        /// every time when we need to reload to define if reload needed
+        self.userId = viewModel.userService.atlasId ?? ""
         DispatchQueue.main.async { [weak self] in
             self?.webView.load(urlRequest)
         }
@@ -45,6 +46,7 @@ class AtlasViewController: UIViewController {
         let webConfiguration = WKWebViewConfiguration()
         
         let contentController = WKUserContentController()
+        /// In JavaScript window.webkit.atlasiOSHandler.postMessage("")
         contentController.add(self, name: "atlasiOSHandler")
         
         let webConfig = WKWebViewConfiguration()
@@ -63,12 +65,13 @@ class AtlasViewController: UIViewController {
 }
 
 extension AtlasViewController: WKScriptMessageHandler {
-    // Handle messages from JavaScript
+    /// Handle messages from JavaScript
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         print(message)
         if message.name == "atlasiOSHandler", let body = message.body as? String {
-//            viewModel.onAtlasScriptMessage(message, <#T##completion: (Bool) -> ()##(Bool) -> ()#>)
             print("Message received from JavaScript: \(body)")
+            viewModel.onAtlasScriptMessage(body)
+            loadAtlasWebApp()
         }
     }
 }

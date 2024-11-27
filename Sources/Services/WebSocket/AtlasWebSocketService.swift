@@ -7,14 +7,14 @@
 
 import Foundation
 
-protocol AtlasWebSocketServiceDelegate {
-    func onNewMessage(_ message: WebSocketMessage)
+protocol AtlasWebSocketServiceDelegate: AnyObject {
+    func onNewMessage(_ message: AtlasWebSocketMessage)
     func onError(_ error: Error)
 }
 
 class AtlasWebSocketService {
     private var webSocketTask: URLSessionWebSocketTask?
-    private var webSocketMessageHandler: AtlasWebSocketServiceDelegate?
+    private weak var webSocketMessageHandler: AtlasWebSocketServiceDelegate?
     private let urlSession = URLSession.shared
     private let webSocketMessageParser = AtlasWebSocketMessageParser()
     
@@ -28,7 +28,7 @@ class AtlasWebSocketService {
         urlComponents.host = AtlasNetworkURLs.ATLAS_WEB_SOCKET_BASE_URL
         urlComponents.path = AtlasNetworkURLs.ATLAS_WEB_SOCKET_CUSTOMER_PATH
         
-        // Ensure the URL is valid
+        /// Ensure the URL is valid
         guard let url = urlComponents.url else {
             print("Invalid URL.: " + urlComponents.description)
             return
@@ -44,11 +44,11 @@ class AtlasWebSocketService {
             payload: "{}"
         )
         
-        sendMessage(request) {[weak self] error in
-            if error == nil {
-                self?.listenForMessages()
-            }
+        sendMessage(request) { [weak self] error in
+            guard let error = error else { return }
+            self?.webSocketMessageHandler?.onError(error)
         }
+        listenForMessages()
     }
 
     func close() {
@@ -79,12 +79,12 @@ class AtlasWebSocketService {
         webSocketTask?.receive { [weak self] result in
             switch result {
             case .failure(let error):
-                print("AtlasSDK Error:: Failed to receive message: \(error)")
+                print("AtlasSDK Error: Failed to receive message: \(error)")
                 self?.webSocketMessageHandler?.onError(error)
             case .success(let message):
                 self?.handleMessage(message)
             }
-            // Continue listening for messages
+            /// Continue listening for messages
             self?.listenForMessages()
         }
     }

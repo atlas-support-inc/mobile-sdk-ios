@@ -11,10 +11,11 @@ public class AtlasSupport: WKWebView {
     }
 }
 
+// Make all functs optionals
 protocol AtlasSDKDelegate: AnyObject {
-    func onError(message: String?)
-    func onNewTicket(ticketId: String?)
-    func onChangeIdentity(atlasId: String?, userId: String?, userHash: String)
+    func onError(message: String)
+    func onNewTicket(ticketId: String)
+    func onChangeIdentity(atlasId: String, userId: String, userHash: String)
 }
 
 class AtlasSDK {
@@ -24,22 +25,20 @@ class AtlasSDK {
     
     static let sdkVersion = "1.0.0"
     
-    // The appId is empty by default and must be set before using getAtlasViewController() or any other public methods.
-    static var appId: String = ""
+    /// The appId is empty by default and must
+    /// be set before using getAtlasViewController() or any other public methods.
+    internal static var appId: String = ""
     private static var viewController: AtlasViewController?
-    private static var atlasSDKDelegates: [any AtlasSDKDelegate] = []
+    
+    /// External communication handlers
+    private static var atlasSDKDelegates: [(any AtlasSDKDelegate)?] = []
+    private static var atlasSDKOnErroHandlers: [(String) -> ()] = []
+    private static var atlasSDKOnNewTicketHandlers: [(String) -> ()] = []
+    private static var atlasSDKOnChangeIdentityHandlers: [(String, String, String) -> ()] = []
     
     private static let atlasUserService = AtlasUserService()
     private static let atlasSDKQueue = DispatchQueue(label: "com.atlasSDK",
                                                      attributes: .concurrent)
-    
-    static func setAtlasSDKDelegate(_ delegate: any AtlasSDKDelegate) {
-        atlasSDKDelegates.append(delegate)
-    }
-    
-    static func removeAtlasSDKDelegate(_ delegate: any AtlasSDKDelegate) {
-//        atlasSDKDelegates.removeAll(where: { $0 == delegate })
-    }
 
     static func setAppId(_ appId: String) {
         guard !appId.isEmpty else {
@@ -50,42 +49,6 @@ class AtlasSDK {
             AtlasSDK.appId = appId
         }
     }
-    
-    static func identify(userId: String? = nil,
-                         userHash: String? = nil,
-                         userName: String? = nil,
-                         userEmail: String? = nil) {
-        guard !appId.isEmpty else {
-            print("AtlasSDK Error: App ID cannot be empty.")
-            return
-        }
-        atlasSDKQueue.async() {
-            atlasUserService
-                .restorUser(
-                    appId: appId,
-                    atlasUser: AtlasUser(
-                        id: userId ?? "",
-                        hash: userHash ?? "",
-                        atlasId: nil,
-                        name: userName,
-                        email: userEmail)) { result in
-                            viewController?.loadAtlasWebApp()
-                            switch result {
-                            case .success(let newAtlasUser):
-                                atlasSDKDelegates.forEach {
-                                    $0.onChangeIdentity(atlasId: newAtlasUser.atlasId,
-                                                        userId: newAtlasUser.id,
-                                                        userHash: newAtlasUser.hash)
-                                }
-                            case .failure(let error):
-                                atlasSDKDelegates.forEach {
-                                    $0.onError(message: error.localizedDescription)
-                                }
-                            }
-                            
-                        }
-        }
-    }
             
     static func getAtlassViewController() -> UIViewController? {
         guard !appId.isEmpty else {
@@ -94,11 +57,84 @@ class AtlasSDK {
         }
         
         let viewModel = AtlasViewModel(appId: appId,
-                                       userService: AtlasSDK.atlasUserService)
+                                       userService: atlasUserService)
         let viewController = AtlasViewController(viewModel: viewModel)
         self.viewController = viewController
         
         return viewController
     }
+    
+    static func identify(userId: String?,
+                         userHash: String?,
+                         userName: String?,
+                         userEmail: String?) {
+        guard !appId.isEmpty else {
+            print("AtlasSDK Error: App ID cannot be empty.")
+            return
+        }
+        atlasSDKQueue.async() {
+            atlasUserService
+                .restorUser(
+                    appId: appId,
+                    userId: userId,
+                    userHash: userHash,
+                    userName: userName,
+                    userEmail: userEmail) { result in
+                            viewController?.loadAtlasWebApp()
+                            switch result {
+                            case .success(let newAtlasUser):
+                                atlasSDKDelegates.forEach {
+                                    $0?.onChangeIdentity(atlasId: newAtlasUser.atlasId,
+                                                         userId: newAtlasUser.id,
+                                                         userHash: newAtlasUser.hash)
+                                }
+                            case .failure(let error):
+                                atlasSDKDelegates.forEach {
+                                    $0?.onError(message: error.localizedDescription)
+                                }
+                            }
+                            
+                        }
+        }
+    }
+    
+    static func logout() {
+        atlasUserService.logout()
+        viewController?.loadAtlasWebApp()
+    }
 }
 
+extension AtlasSDK {
+    static func setAtlasSDKDelegate(_ delegate: any AtlasSDKDelegate) {
+        weak var weakDelegate = delegate
+        atlasSDKDelegates.append(weakDelegate)
+    }
+    
+    static func removeAtlasSDKDelegate(_ delegate: any AtlasSDKDelegate) {
+        atlasSDKDelegates.removeAll(where: { $0 === delegate })
+    }
+    
+    static func setAtlasSDKOnErroHandler(_ handler: @escaping (String?) -> ()) {
+        atlasSDKOnErroHandlers.append(handler)
+    }
+    
+    static func removeAtlasSDKOnErroHandler(_ handler: @escaping (String?) -> ()) {
+//        atlasSDKOnErroHandlers.removeAll { $0 === handler }
+    }
+    
+    static func setAtlasSDKOnNewTicketHandler(_ handler: @escaping (String) -> ()) {
+        atlasSDKOnNewTicketHandlers.append(handler)
+    }
+    
+    static func removeAtlasSDKOnNewTicketHandler(_ handler: @escaping (String) -> ()) {
+//        atlasSDKOnNewTicketHandlers.removeAll { $0 === handler }
+    }
+    
+    static func setAtlasSDKOnChangeIdentityHandler(_ handler: @escaping (String, String, String) -> ()) {
+        atlasSDKOnChangeIdentityHandlers.append(handler)
+    }
+    
+    static func removeAtlasSDKOnChangeIdentityHandler(_ handler: @escaping (String, String, String) -> ()) {
+//        atlasSDKOnChangeIdentityHandlers.removeAll { $0 === handler }
+    }
+}
