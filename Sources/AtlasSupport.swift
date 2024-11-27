@@ -11,6 +11,12 @@ public class AtlasSupport: WKWebView {
     }
 }
 
+protocol AtlasSDKDelegate: AnyObject {
+    func onError(message: String?)
+    func onNewTicket(ticketId: String?)
+    func onChangeIdentity(atlasId: String?, userId: String?, userHash: String)
+}
+
 class AtlasSDK {
     
     // Private initializer prevents instances
@@ -21,9 +27,19 @@ class AtlasSDK {
     // The appId is empty by default and must be set before using getAtlasViewController() or any other public methods.
     static var appId: String = ""
     private static var viewController: AtlasViewController?
+    private static var atlasSDKDelegates: [any AtlasSDKDelegate] = []
+    
     private static let atlasUserService = AtlasUserService()
     private static let atlasSDKQueue = DispatchQueue(label: "com.atlasSDK",
                                                      attributes: .concurrent)
+    
+    static func setAtlasSDKDelegate(_ delegate: any AtlasSDKDelegate) {
+        atlasSDKDelegates.append(delegate)
+    }
+    
+    static func removeAtlasSDKDelegate(_ delegate: any AtlasSDKDelegate) {
+//        atlasSDKDelegates.removeAll(where: { $0 == delegate })
+    }
 
     static func setAppId(_ appId: String) {
         guard !appId.isEmpty else {
@@ -44,16 +60,30 @@ class AtlasSDK {
             return
         }
         atlasSDKQueue.async() {
-            atlasUserService.restorUser(
-                appId: appId,
-                atlasUser: AtlasUser(
-                    id: userId ?? "",
-                    hash: userHash ?? "",
-                    atlasId: nil,
-                    name: userName,
-                    email: userEmail)) { result in
-                        viewController?.loadAtlasWebApp()
-                    }
+            atlasUserService
+                .restorUser(
+                    appId: appId,
+                    atlasUser: AtlasUser(
+                        id: userId ?? "",
+                        hash: userHash ?? "",
+                        atlasId: nil,
+                        name: userName,
+                        email: userEmail)) { result in
+                            viewController?.loadAtlasWebApp()
+                            switch result {
+                            case .success(let newAtlasUser):
+                                atlasSDKDelegates.forEach {
+                                    $0.onChangeIdentity(atlasId: newAtlasUser.atlasId,
+                                                        userId: newAtlasUser.id,
+                                                        userHash: newAtlasUser.hash)
+                                }
+                            case .failure(let error):
+                                atlasSDKDelegates.forEach {
+                                    $0.onError(message: error.localizedDescription)
+                                }
+                            }
+                            
+                        }
         }
     }
             

@@ -36,7 +36,9 @@ class AtlasViewController: UIViewController {
         guard let urlRequest = viewModel.atlasURL() else { return }
         // Save what userId is loaded night now. We chek if we need to reload next time when this method called
         self.userId = viewModel.userService.userId ?? ""
-        webView.load(urlRequest)
+        DispatchQueue.main.async { [weak self] in
+            self?.webView.load(urlRequest)
+        }
     }
     
     private func setupWebView() {
