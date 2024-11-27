@@ -9,39 +9,39 @@ import Foundation
 
 internal class AtlasUserService {
     
-    private(set) var atlasUser: AtlasUser? = nil
-    private(set) var userId: String? = nil {
-        didSet {
-            // Re-open web socket connection every time when settin userId and it's value new
-            if userId != oldValue { subscribeToWatchStats() }
-        }
+    private(set) var atlasId: String? = nil {
+        /// Re-open web socket connection every time when settin userId and it's value new
+        didSet { if atlasId != oldValue { subscribeToWatchStats() } }
     }
     private let localStorage = AtlasLocalStorageService.shared
     private let networkService = AtlasNetworkService()
     private let webSocketService = AtlasWebSocketService()
     
-    init() { self.userId = localStorage.getUserId() }
+    init() { self.atlasId = localStorage.getUserId() }
     
-    func setNewUserId(_ newUserId: String) {
-        self.userId = newUserId
+    func setAtlasId(_ newUserId: String) {
+        self.atlasId = newUserId
         localStorage.saveUserId(newUserId)
     }
     
     func restorUser(appId: String,
-                    atlasUser: AtlasUser,
+                    userId: String?,
+                    userHash: String?,
+                    userName: String?,
+                    userEmail: String?,
                     _ completion: @escaping (Result<AtlasUser, Error>) ->()) {
         networkService.login(
             appId: appId,
-            atlasUser: atlasUser) { [weak self] result in
+            userId: userId,
+            userHash: userHash,
+            userName: userName,
+            userEmail: userEmail) { [weak self] result in
                 switch result {
                 case .success(let loginResponse):
-                    let atlasUser = AtlasUser(id: atlasUser.id,
-                                              hash: atlasUser.hash,
-                                              atlasId: loginResponse.id,
-                                              name: atlasUser.name,
-                                              email: atlasUser.email)
-                    self?.atlasUser = atlasUser
-                    self?.setNewUserId(atlasUser.atlasId ?? "")
+                    let atlasUser = AtlasUser(id: loginResponse.id,
+                                              hash: loginResponse.detail ?? "",
+                                              atlasId: loginResponse.id)
+                    self?.setAtlasId(atlasUser.atlasId)
                     completion(.success(atlasUser))
                 case .failure(let error):
                     completion(.failure(error))
@@ -50,25 +50,25 @@ internal class AtlasUserService {
     }
     
     func subscribeToWatchStats() {
-        guard let userId = self.userId else {
+        guard let atlasId = self.atlasId else {
             print("AtlasSDK Error: Failed to establish web socket connection. userId is not defined")
             return
         }
         
         webSocketService.close()
         webSocketService.setWebSocketMessageHandler(self)
-        webSocketService.connect(atlasId: userId)
+        webSocketService.connect(atlasId: atlasId)
     }
     
     func logout() {
-        userId = nil
-        atlasUser = nil
+        atlasId = nil
         localStorage.removeUserId()
+        webSocketService.close()
     }
 }
 
 extension AtlasUserService: AtlasWebSocketServiceDelegate {
-    func onNewMessage(_ message: WebSocketMessage) {
+    func onNewMessage(_ message: AtlasWebSocketMessage) {
         
     }
     

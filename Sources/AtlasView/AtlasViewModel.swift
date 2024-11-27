@@ -31,30 +31,18 @@ class AtlasViewModel {
             URLQueryItem(name: AtlasNetworkURLs.PARAM_USER_EMAIL, value: "20")
         ]
         
-        // Ensure the URL is valid
+        /// Ensure the URL is valid
         guard let url = urlComponents.url else {
             return nil
         }
         
         return URLRequest(url: url)
-        }
         
-    func onAtlasScriptMessage(_ message: String,
-                              _ completion: @escaping (Bool) -> ()) {
-        let atlasUser = AtlasUser(id: userService.atlasUser?.id ?? "",
-                                  hash: userService.atlasUser?.hash ?? "",
-                                  atlasId: userService.atlasUser?.atlasId,
-                                  name: userService.atlasUser?.name,
-                                  email: userService.atlasUser?.email)
-        userService.restorUser(appId: appId,
-                               atlasUser: atlasUser) { result in
-            switch result {
-            case .success(let newAtlasUser):
-                completion(atlasUser.atlasId != newAtlasUser.atlasId)
-            case .failure(let error):
-                print(error)
-                completion(false)
-            }
-        }
+    }
+        
+    func onAtlasScriptMessage(_ message: String) {
+        // TO DO: Parce message and retrive atlassId
+        let atlassId = message
+        userService.setAtlasId(atlassId)
     }
 }

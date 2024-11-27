@@ -10,15 +10,18 @@ import Foundation
 internal class AtlasNetworkService {
     
     func login(appId: String,
-               atlasUser: AtlasUser,
-               _ completion: @escaping (Result<LoginResponse, NetworkError>) -> ()) {
+               userId: String?,
+               userHash: String?,
+               userName: String?,
+               userEmail: String?,
+               _ completion: @escaping (Result<AtlasLoginResponse, AtlasNetworkError>) -> ()) {
         
-        let loginRequest = LoginRequest(
+        let loginRequest = AtlasLoginRequest(
             appId: appId,
-            userId: atlasUser.id,
-            userHash: atlasUser.hash,
-            userName: atlasUser.name,
-            userEmail: atlasUser.email
+            userId: userId,
+            userHash: userHash,
+            userName: userName,
+            userEmail: userEmail
         )
         
         // Use JSONEncoder to convert the Codable object to JSON data
@@ -50,7 +53,7 @@ internal class AtlasNetworkService {
                 print("Error: \(error.localizedDescription)")
                 completion(
                     .failure(
-                        NetworkError.nerworkError(
+                        AtlasNetworkError.nerworkError(
                             error.localizedDescription)
                     ))
             } else if let data = data {
@@ -59,13 +62,13 @@ internal class AtlasNetworkService {
                 do {
                     let object
                     = try JSONDecoder()
-                        .decode(LoginResponse.self,
+                        .decode(AtlasLoginResponse.self,
                                 from: data)
                     completion(.success(object))
                 } catch let error {
                     completion(
                         .failure(
-                            NetworkError.decodingJSONError(
+                            AtlasNetworkError.decodingJSONError(
                                 error.localizedDescription)
                         ))
                 }

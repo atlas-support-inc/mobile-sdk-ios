@@ -10,7 +10,5 @@ import Foundation
 struct AtlasUser {
     let id: String
     let hash: String
-    let atlasId: String?
-    let name: String?
-    let email: String?
+    let atlasId: String
 }
