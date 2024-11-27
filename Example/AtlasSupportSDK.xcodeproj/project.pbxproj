@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		42D5B8812CF79E84004E8FBA /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D5B8802CF79E84004E8FBA /* TabBarViewController.swift */; };
+		42D5B8832CF7A00F004E8FBA /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D5B8822CF7A00F004E8FBA /* HomeViewController.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
@@ -29,6 +31,8 @@
 
 /* Begin PBXFileReference section */
 		1C666269BC4E40644D033E12 /* Pods-AtlasSupportSDK_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AtlasSupportSDK_Example.debug.xcconfig"; path = "Target Support Files/Pods-AtlasSupportSDK_Example/Pods-AtlasSupportSDK_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		42D5B8802CF79E84004E8FBA /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		42D5B8822CF7A00F004E8FBA /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		5F0224D45476BD9764FEE3E4 /* Pods-AtlasSupportSDK_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AtlasSupportSDK_Tests.release.xcconfig"; path = "Target Support Files/Pods-AtlasSupportSDK_Tests/Pods-AtlasSupportSDK_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* AtlasSupportSDK_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AtlasSupportSDK_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -102,6 +106,8 @@
 		607FACD21AFB9204008FA782 /* Example for AtlasSupportSDK */ = {
 			isa = PBXGroup;
 			children = (
+				42D5B8802CF79E84004E8FBA /* TabBarViewController.swift */,
+				42D5B8822CF7A00F004E8FBA /* HomeViewController.swift */,
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
@@ -352,7 +358,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
+				42D5B8812CF79E84004E8FBA /* TabBarViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
+				42D5B8832CF7A00F004E8FBA /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

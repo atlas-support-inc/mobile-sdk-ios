@@ -18,7 +18,7 @@ protocol AtlasSDKDelegate: AnyObject {
     func onChangeIdentity(atlasId: String, userId: String, userHash: String)
 }
 
-class AtlasSDK {
+public class AtlasSDK {
     
     // Private initializer prevents instances
     private init() {}
@@ -40,17 +40,15 @@ class AtlasSDK {
     private static let atlasSDKQueue = DispatchQueue(label: "com.atlasSDK",
                                                      attributes: .concurrent)
 
-    static func setAppId(_ appId: String) {
+    static public func setAppId(_ appId: String) {
         guard !appId.isEmpty else {
             print("AtlasSDK Error: App ID cannot be empty.")
             return
         }
-        atlasSDKQueue.async(flags: .barrier) {
-            AtlasSDK.appId = appId
-        }
+        AtlasSDK.appId = appId
     }
             
-    static func getAtlassViewController() -> UIViewController? {
+    static public func getAtlassViewController() -> UIViewController? {
         guard !appId.isEmpty else {
             print("AtlasSDK Error: App ID cannot be empty.")
             return nil
@@ -64,7 +62,7 @@ class AtlasSDK {
         return viewController
     }
     
-    static func identify(userId: String?,
+    static public func identify(userId: String?,
                          userHash: String?,
                          userName: String?,
                          userEmail: String?) {
@@ -98,7 +96,7 @@ class AtlasSDK {
         }
     }
     
-    static func logout() {
+    static public func logout() {
         atlasUserService.logout()
         viewController?.loadAtlasWebApp()
     }
