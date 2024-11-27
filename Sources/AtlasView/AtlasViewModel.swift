@@ -23,12 +23,12 @@ class AtlasViewModel {
         urlComponents.host = AtlasNetworkURLs.ATLAS_WIDGET_BASE_URL
         
         urlComponents.queryItems = [
-            URLQueryItem(name: AtlasNetworkURLs.PARAM_APP_ID, value: "20"),
-            URLQueryItem(name: AtlasNetworkURLs.PARAM_ATLAS_ID, value: "20"),
-            URLQueryItem(name: AtlasNetworkURLs.PARAM_USER_ID, value: "20"),
-            URLQueryItem(name: AtlasNetworkURLs.PARAM_USER_HASH, value: "20"),
-            URLQueryItem(name: AtlasNetworkURLs.PARAM_USER_NAME, value: "20"),
-            URLQueryItem(name: AtlasNetworkURLs.PARAM_USER_EMAIL, value: "20")
+            URLQueryItem(name: AtlasNetworkURLs.PARAM_APP_ID, value: appId),
+            URLQueryItem(name: AtlasNetworkURLs.PARAM_ATLAS_ID, value: userService.atlasId),
+            URLQueryItem(name: AtlasNetworkURLs.PARAM_USER_ID, value: ""),
+            URLQueryItem(name: AtlasNetworkURLs.PARAM_USER_HASH, value: ""),
+            URLQueryItem(name: AtlasNetworkURLs.PARAM_USER_NAME, value: ""),
+            URLQueryItem(name: AtlasNetworkURLs.PARAM_USER_EMAIL, value: "")
         ]
         
         /// Ensure the URL is valid

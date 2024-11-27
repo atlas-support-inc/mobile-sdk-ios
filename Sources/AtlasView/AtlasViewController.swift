@@ -44,15 +44,18 @@ class AtlasViewController: UIViewController {
     
     private func setupWebView() {
         let webConfiguration = WKWebViewConfiguration()
-        
         let contentController = WKUserContentController()
-        /// In JavaScript window.webkit.atlasiOSHandler.postMessage("")
+        /// In JavaScript window.webkit.messageHandlers.atlasiOSHandler.postMessage()
         contentController.add(self, name: "atlasiOSHandler")
-        
-        let webConfig = WKWebViewConfiguration()
-        webConfig.userContentController = contentController
+        webConfiguration.userContentController = contentController
         
         webView = WKWebView(frame: .zero, configuration: webConfiguration)
+        if #available(iOS 16.4, *) {
+            webView.isInspectable = true
+        } else {
+            // Fallback on earlier versions
+        }
+        
         webView.navigationDelegate = self
         webView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(webView)

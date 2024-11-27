@@ -10,16 +10,23 @@ import UIKit
 import AtlasSupportSDK
 
 class ViewController: UIViewController {
-    @IBOutlet private weak var webView: AtlasSupport!
-
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        webView.startChat(appId: "a95uw0hfsr", userId: "14f4771a-c43a-473c-ad22-7d3c5b8dd736", userHash: "d662979a5bbcd7bbe63314fc97b13583fc7ced1b1aa57c1edb14459f61ec5d91")
+        activityIndicator.startAnimating()
+        navigate()
+    }
+    
+    func navigate() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+            let tabBarController = TabBarController()
+            self?.navigationController?.setViewControllers([tabBarController], animated: true)
+        }
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
 }
