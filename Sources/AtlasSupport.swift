@@ -20,6 +20,7 @@ class AtlasSDK {
     
     // The appId is empty by default and must be set before using getAtlasViewController() or any other public methods.
     static var appId: String = ""
+    private static var viewController: AtlasViewController?
     private static let atlasUserService = AtlasUserService()
     private static let atlasSDKQueue = DispatchQueue(label: "com.atlasSDK",
                                                      attributes: .concurrent)
@@ -42,16 +43,18 @@ class AtlasSDK {
             print("AtlasSDK Error: App ID cannot be empty.")
             return
         }
-        atlasUserService.restorUser(
-            appId: appId,
-            atlasUser: AtlasUser(
-                id: userId ?? "",
-                hash: userHash ?? "",
-                atlasId: nil,
-                name: userName,
-                email: userEmail)) { result in
-                    
-                }
+        atlasSDKQueue.async() {
+            atlasUserService.restorUser(
+                appId: appId,
+                atlasUser: AtlasUser(
+                    id: userId ?? "",
+                    hash: userHash ?? "",
+                    atlasId: nil,
+                    name: userName,
+                    email: userEmail)) { result in
+                        viewController?.loadAtlasWebApp()
+                    }
+        }
     }
             
     static func getAtlassViewController() -> UIViewController? {
@@ -63,6 +66,7 @@ class AtlasSDK {
         let viewModel = AtlasViewModel(appId: appId,
                                        userService: AtlasSDK.atlasUserService)
         let viewController = AtlasViewController(viewModel: viewModel)
+        self.viewController = viewController
         
         return viewController
     }

@@ -13,6 +13,7 @@ class AtlasViewController: UIViewController {
     
     private let viewModel: AtlasViewModel
     private var webView = WKWebView()
+    private var userId = ""
     
     init(viewModel: AtlasViewModel) {
         self.viewModel = viewModel
@@ -30,7 +31,11 @@ class AtlasViewController: UIViewController {
     }
     
     func loadAtlasWebApp() {
+        // Do not reload if previous userId is equal to new userId for userService
+        if userId == viewModel.userService.userId { return }
         guard let urlRequest = viewModel.atlasURL() else { return }
+        // Save what userId is loaded night now. We chek if we need to reload next time when this method called
+        self.userId = viewModel.userService.userId ?? ""
         webView.load(urlRequest)
     }
     
