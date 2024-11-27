@@ -20,11 +20,8 @@ protocol AtlasSDKDelegate: AnyObject {
 
 public class AtlasSDK {
     
-    // Private initializer prevents instances
+    /// Private initializer prevents instances
     private init() {}
-    
-    static let sdkVersion = "1.0.0"
-    
     /// The appId is empty by default and must
     /// be set before using getAtlasViewController() or any other public methods.
     internal static var appId: String = ""

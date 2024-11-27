@@ -36,6 +36,7 @@ internal class AtlasNetworkService {
         urlComponents.path = AtlasNetworkURLs.LOGIN_URL_PATH
         
         // Ensure the URL is valid
+        // https://embed.atlas.so/client-app/company/identify
         guard let url = urlComponents.url else {
             completion(.failure(.invalidURL("Invalid URL.: " + urlComponents.description)));
             return
@@ -57,7 +58,6 @@ internal class AtlasNetworkService {
                             error.localizedDescription)
                     ))
             } else if let data = data {
-                print("Response Data: \(data)")
                 // Decode the JSON response
                 do {
                     let object

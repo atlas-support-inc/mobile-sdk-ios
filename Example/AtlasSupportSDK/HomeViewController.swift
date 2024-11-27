@@ -12,13 +12,23 @@ import AtlasSupportSDK
 
 class HomeViewController: UIViewController {
     
-    private(set) lazy var helpButton = {
+    private(set) lazy var chatButton = {
         let button = UIButton(type: .custom)
         button.setTitle(" Chat with Us! ", for: .normal)
         button.setTitleColor(UIColor.black, for: .normal)
         button.backgroundColor = UIColor.lightGray
         button.layer.cornerRadius = 4
-        button.addTarget(self, action: #selector(submitButtonAction), for: .touchUpInside)
+        button.addTarget(self, action: #selector(chatButtonAction), for: .touchUpInside)
+        return button
+    }()
+    
+    private(set) lazy var identifyButton = {
+        let button = UIButton(type: .custom)
+        button.setTitle(" Identify ", for: .normal)
+        button.setTitleColor(UIColor.black, for: .normal)
+        button.backgroundColor = UIColor.lightGray
+        button.layer.cornerRadius = 4
+        button.addTarget(self, action: #selector(identifyButtonAction), for: .touchUpInside)
         return button
     }()
     
@@ -31,7 +41,7 @@ class HomeViewController: UIViewController {
         configureLayout()
     }
     
-    @objc func submitButtonAction() {
+    @objc func chatButtonAction() {
         let appId = "a95uw0hfsr"
         
         AtlasSDK.setAppId(appId)
@@ -46,14 +56,27 @@ class HomeViewController: UIViewController {
         let userHash = "d662979a5bbcd7bbe63314fc97b13583fc7ced1b1aa57c1edb14459f61ec5d91"
     }
     
+    @objc func identifyButtonAction() {
+        let userId = "14f4771a-c43a-473c-ad22-7d3c5b8dd736"
+        AtlasSDK.identify(userId: userId,
+                          userHash: nil,
+                          userName: nil,
+                          userEmail: nil)
+    }
+    
     private func configureLayout() {
-        view.addSubview(helpButton)
+        view.addSubview(chatButton)
+        view.addSubview(identifyButton)
         
-        helpButton.translatesAutoresizingMaskIntoConstraints = false
-        
+        chatButton.translatesAutoresizingMaskIntoConstraints = false
+        identifyButton.translatesAutoresizingMaskIntoConstraints = false
+
         NSLayoutConstraint.activate([
-            helpButton.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: -50),
-            helpButton.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor)
+            identifyButton.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 50),
+            identifyButton.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
+            
+            chatButton.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: -50),
+            chatButton.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor)
         ])
     }
 }
