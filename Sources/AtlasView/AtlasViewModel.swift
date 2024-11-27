@@ -41,8 +41,6 @@ class AtlasViewModel {
         
     func onAtlasScriptMessage(_ message: String,
                               _ completion: @escaping (Bool) -> ()) {
-        AtlasSDK.
-
         let atlasUser = AtlasUser(id: userService.atlasUser?.id ?? "",
                                   hash: userService.atlasUser?.hash ?? "",
                                   atlasId: userService.atlasUser?.atlasId,

@@ -67,6 +67,7 @@ extension AtlasViewController: WKScriptMessageHandler {
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         print(message)
         if message.name == "atlasiOSHandler", let body = message.body as? String {
+//            viewModel.onAtlasScriptMessage(message, <#T##completion: (Bool) -> ()##(Bool) -> ()#>)
             print("Message received from JavaScript: \(body)")
         }
     }
