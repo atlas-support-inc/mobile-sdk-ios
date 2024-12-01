@@ -35,11 +35,9 @@ class TabBarController: UITabBarController {
         let appId = "a95uw0hfsr"
         AtlasSDK.setAppId(appId)
         if let atlassViewController = AtlasSDK.getAtlassViewController() {
-            atlassViewController.tabBarItem
-            = UITabBarItem(title: "Online help",
-                           image: UIImage(systemName: "message.circle"),
-                           tag: 2)
-            
+            atlassViewController.tabBarItem = UITabBarItem(title: "Online help",
+                                                           image: UIImage(systemName: "message.circle"),
+                                                           tag: 2)
             viewControllers?.append(atlassViewController)
         }
     }

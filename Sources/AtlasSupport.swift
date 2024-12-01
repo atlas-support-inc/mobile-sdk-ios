@@ -12,10 +12,9 @@ public class AtlasSupport: WKWebView {
 }
 
 // Make all functs optionals
-protocol AtlasSDKDelegate: AnyObject {
-    func onError(message: String)
-    func onNewTicket(ticketId: String)
-    func onChangeIdentity(atlasId: String, userId: String, userHash: String)
+public protocol AtlasSDKDelegate: AnyObject {
+    func onAtlasError(message: String)
+    func onAtlasStatsUpdate(conversations: [AtlasConversationStats])
 }
 
 public class AtlasSDK {
@@ -29,9 +28,10 @@ public class AtlasSDK {
     
     /// External communication handlers
     private static var atlasSDKDelegates: [(any AtlasSDKDelegate)?] = []
+    
     private static var atlasSDKOnErroHandlers: [(String) -> ()] = []
     private static var atlasSDKOnNewTicketHandlers: [(String) -> ()] = []
-    private static var atlasSDKOnChangeIdentityHandlers: [(String, String, String) -> ()] = []
+    private static var atlasSDKStatsUpdateHandlers: [([AtlasConversationStats]) -> ()] = []
     
     private static let atlasUserService = AtlasUserService()
     private static let atlasSDKQueue = DispatchQueue(label: "com.atlasSDK",
@@ -60,9 +60,9 @@ public class AtlasSDK {
     }
     
     static public func identify(userId: String?,
-                         userHash: String?,
-                         userName: String?,
-                         userEmail: String?) {
+                                userHash: String?,
+                                userName: String?,
+                                userEmail: String?) {
         guard !appId.isEmpty else {
             print("AtlasSDK Error: App ID cannot be empty.")
             return
@@ -74,32 +74,30 @@ public class AtlasSDK {
                     userId: userId,
                     userHash: userHash,
                     userName: userName,
-                    userEmail: userEmail) { result in
-                            viewController?.loadAtlasWebApp()
-                            switch result {
-                            case .success(let newAtlasUser):
-                                atlasSDKDelegates.forEach {
-                                    $0?.onChangeIdentity(atlasId: newAtlasUser.atlasId,
-                                                         userId: newAtlasUser.id,
-                                                         userHash: newAtlasUser.hash)
-                                }
-                            case .failure(let error):
-                                atlasSDKDelegates.forEach {
-                                    $0?.onError(message: error.localizedDescription)
-                                }
-                            }
-                            
-                        }
+                    userEmail: userEmail)
         }
     }
     
-    static public func logout() {
-        atlasUserService.logout()
-        viewController?.loadAtlasWebApp()
+    static public func updateCustomField(ticketId: String, data: [String : Data]) {
+        atlasUserService.updateCustomFields(ticketId: ticketId,
+                                            data: data)
     }
 }
 
-extension AtlasSDK {
+internal extension AtlasSDK {
+    static func onError(_ error: Error) {
+        atlasSDKOnErroHandlers.forEach { $0(error.localizedDescription) }
+        atlasSDKDelegates.forEach { $0?.onAtlasError(message: error.localizedDescription)}
+    }
+    
+    static func onStatsUpdate(_ conversations: [AtlasConversationStats]) {
+        atlasSDKStatsUpdateHandlers.forEach { $0(conversations) }
+        atlasSDKDelegates.forEach { $0?.onAtlasStatsUpdate(conversations: conversations) }
+    }
+}
+
+/// External communication handlers
+public extension AtlasSDK {
     static func setAtlasSDKDelegate(_ delegate: any AtlasSDKDelegate) {
         weak var weakDelegate = delegate
         atlasSDKDelegates.append(weakDelegate)
@@ -123,13 +121,5 @@ extension AtlasSDK {
     
     static func removeAtlasSDKOnNewTicketHandler(_ handler: @escaping (String) -> ()) {
 //        atlasSDKOnNewTicketHandlers.removeAll { $0 === handler }
-    }
-    
-    static func setAtlasSDKOnChangeIdentityHandler(_ handler: @escaping (String, String, String) -> ()) {
-        atlasSDKOnChangeIdentityHandlers.append(handler)
-    }
-    
-    static func removeAtlasSDKOnChangeIdentityHandler(_ handler: @escaping (String, String, String) -> ()) {
-//        atlasSDKOnChangeIdentityHandlers.removeAll { $0 === handler }
     }
 }

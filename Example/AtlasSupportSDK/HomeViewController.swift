@@ -38,11 +38,13 @@ class HomeViewController: UIViewController {
         tabBarItem = UITabBarItem(title: "Configuration",
                                   image: UIImage(systemName: "gear"),
                                   tag: 2)
+        
+        AtlasSDK.setAtlasSDKDelegate(self)
         configureLayout()
     }
     
     @objc func chatButtonAction() {
-        let appId = "a95uw0hfsr"
+        let appId = "kxjfzvo5pp"
         
         AtlasSDK.setAppId(appId)
         guard let atlassViewController = AtlasSDK.getAtlassViewController() else {
@@ -51,9 +53,8 @@ class HomeViewController: UIViewController {
         }
         
         navigationController?.present(atlassViewController, animated: true)
-        
-        let userId = "14f4771a-c43a-473c-ad22-7d3c5b8dd736"
-        let userHash = "d662979a5bbcd7bbe63314fc97b13583fc7ced1b1aa57c1edb14459f61ec5d91"
+
+//        let userHash = "d662979a5bbcd7bbe63314fc97b13583fc7ced1b1aa57c1edb14459f61ec5d91"
     }
     
     @objc func identifyButtonAction() {
@@ -78,5 +79,15 @@ class HomeViewController: UIViewController {
             chatButton.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: -50),
             chatButton.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor)
         ])
+    }
+}
+
+extension HomeViewController: AtlasSDKDelegate {
+    func onAtlasStatsUpdate(conversations: [AtlasSupportSDK.AtlasConversationStats]) {
+        
+    }
+    
+    func onAtlasError(message: String) {
+        
     }
 }
