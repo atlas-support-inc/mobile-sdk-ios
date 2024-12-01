@@ -8,7 +8,5 @@
 import Foundation
 
 struct AtlasUser {
-    let id: String
-    let hash: String
     let atlasId: String
 }

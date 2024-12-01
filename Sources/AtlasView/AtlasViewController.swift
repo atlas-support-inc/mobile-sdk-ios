@@ -64,6 +64,14 @@ class AtlasViewController: UIViewController {
         webView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         webView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         webView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        
+        evaluateJavaScript()
+    }
+    
+    func evaluateJavaScript() {
+        let jsCode = "window.ReactNativeWebView = window.webkit.messageHandlers.atlas;"
+        
+        webView.evaluateJavaScript(jsCode)
     }
 }
 

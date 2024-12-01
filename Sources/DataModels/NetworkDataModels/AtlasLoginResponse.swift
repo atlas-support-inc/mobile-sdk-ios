@@ -9,5 +9,4 @@ import Foundation
 
 struct AtlasLoginResponse: Codable {
     let id: String
-    let detail: String?
 }

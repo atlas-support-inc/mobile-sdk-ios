@@ -9,15 +9,11 @@ import Foundation
 
 class AtlasWebSocketMessageParser {
 
-    func parse(_ data: Data) -> AtlasWebSocketMessage? {
-        guard let messageString = String(data: data, encoding: .utf8) else {
+    func parse(_ data: Data) -> AtlasWebSocketPacket? {
+        guard let packet = try? JSONDecoder().decode(AtlasWebSocketPacket.self, from: data) else {
             print("AtlasSDK Error: Can not parse web socket message.")
             return nil
         }
-        return AtlasWebSocketMessage(content: messageString)
-    }
-
-    func parse(_ text: String) -> AtlasWebSocketMessage? {
-        return AtlasWebSocketMessage(content: text)
+        return packet
     }
 }

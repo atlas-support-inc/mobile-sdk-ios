@@ -7,99 +7,98 @@
 
 import Foundation
 
-protocol AtlasWebSocketServiceDelegate: AnyObject {
-    func onNewMessage(_ message: AtlasWebSocketMessage)
-    func onError(_ error: Error)
+protocol WebSocketConnection {
+    var delegate: WebSocketConnectionDelegate? { get set }
+    
+    func sendMessage(_ request: WebSocketRequest)
+    func connect(atlasId: String)
+    func disconnect()
 }
 
-class AtlasWebSocketService {
+protocol WebSocketConnectionDelegate: AnyObject {
+    func onConnected(connection: WebSocketConnection)
+    func onMessage(connection: WebSocketConnection, data: AtlasWebSocketPacket)
+    func onDisconnected(connection: WebSocketConnection, error: Error?)
+    func onError(connection: WebSocketConnection, error: Error)
+}
+
+class AtlasWebSocketService: NSObject, WebSocketConnection, URLSessionWebSocketDelegate {
+    weak var delegate: WebSocketConnectionDelegate?
+    
     private var webSocketTask: URLSessionWebSocketTask?
-    private weak var webSocketMessageHandler: AtlasWebSocketServiceDelegate?
-    private let urlSession = URLSession.shared
+    private var urlSession: URLSession?
+    private let delegateQueue = OperationQueue()
     private let webSocketMessageParser = AtlasWebSocketMessageParser()
     
-    func setWebSocketMessageHandler(_ handler: AtlasWebSocketServiceDelegate?) {
-        self.webSocketMessageHandler = handler
-    }
-
     func connect(atlasId: String) {
+        
         var urlComponents = URLComponents()
         urlComponents.scheme = AtlasNetworkURLs.ATLAS_WEB_SOCKET_SCHEME
         urlComponents.host = AtlasNetworkURLs.ATLAS_WEB_SOCKET_BASE_URL
-        urlComponents.path = AtlasNetworkURLs.ATLAS_WEB_SOCKET_CUSTOMER_PATH
+        urlComponents.path = AtlasNetworkURLs.ATLAS_WEB_SOCKET_CUSTOMER_PATH.appending(atlasId)
         
         /// Ensure the URL is valid
         guard let url = urlComponents.url else {
             print("Invalid URL.: " + urlComponents.description)
             return
         }
-    
-        webSocketTask = urlSession.webSocketTask(with: url)
+        
+        urlSession = URLSession(configuration: .default, delegate: self, delegateQueue: delegateQueue)
+        webSocketTask = urlSession?.webSocketTask(with: url)
+        
         webSocketTask?.resume()
         
-        let request = WebSocketRequest(
-            channelId: atlasId,
-            channelKind: "CUSTOMER",
-            packetType: "SUBSCRIBE",
-            payload: "{}"
-        )
-        
-        sendMessage(request) { [weak self] error in
-            guard let error = error else { return }
-            self?.webSocketMessageHandler?.onError(error)
-        }
-        listenForMessages()
+        listen()
     }
-
-    func close() {
+    
+    func disconnect() {
         webSocketTask?.cancel(with: .goingAway, reason: nil)
     }
-
-    private func sendMessage(_ request: WebSocketRequest, _ completion: @escaping (Error?) -> ()) {
+    
+    func listen()  {
+        webSocketTask?.receive { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .failure(let error):
+                self.delegate?.onError(connection: self, error: error)
+            case .success(let message):
+                switch message {
+                case .string(let text):
+                    break
+//                    guard let parsedMessage = webSocketMessageParser.parse(data) else { return }
+//                    self.delegate?.onMessage(connection: self, data: data)
+                case .data(let data):
+                    guard let parsedMessage = self.webSocketMessageParser.parse(data) else { return }
+                    self.delegate?.onMessage(connection: self, data: parsedMessage)
+                @unknown default:
+                    fatalError()
+                }
+                
+                self.listen()
+            }
+        }
+    }
+    
+    func sendMessage(_ request: WebSocketRequest) {
         do {
             let jsonData = try JSONEncoder().encode(request)
             let message = URLSessionWebSocketTask.Message.data(jsonData)
             webSocketTask?.send(message) { [weak self] error in
+                guard let self = self else { return }
                 if let error = error {
-                    print("AtlasSDK Error: Failed to send message: \(error)")
-                    self?.webSocketMessageHandler?.onError(error)
-                    completion(error)
-                } else {
-                    completion(nil)
+                    self.delegate?.onError(connection: self, error: error)
                 }
             }
         } catch {
-            print("AtlasSDK Error: Failed serializing JSON: \(error)")
-            self.webSocketMessageHandler?.onError(error)
-            completion(error)
-        }
-    }
-
-    private func listenForMessages() {
-        webSocketTask?.receive { [weak self] result in
-            switch result {
-            case .failure(let error):
-                print("AtlasSDK Error: Failed to receive message: \(error)")
-                self?.webSocketMessageHandler?.onError(error)
-            case .success(let message):
-                self?.handleMessage(message)
-            }
-            /// Continue listening for messages
-            self?.listenForMessages()
+            delegate?.onError(connection: self, error: error)
         }
     }
     
-    private func handleMessage(_ message: URLSessionWebSocketTask.Message) {
-        switch message {
-        case .data(let data):
-            guard let parsedMessage = webSocketMessageParser.parse(data) else { return }
-            webSocketMessageHandler?.onNewMessage(parsedMessage)
-        case .string(let text):
-            guard let parsedMessage = webSocketMessageParser.parse(text) else { return }
-            webSocketMessageHandler?.onNewMessage(parsedMessage)
-        @unknown default:
-            break
-        }
+    func urlSession(_ session: URLSession, webSocketTask: URLSessionWebSocketTask, didOpenWithProtocol protocol: String?) {
+        self.delegate?.onConnected(connection: self)
+    }
+    
+    func urlSession(_ session: URLSession, webSocketTask: URLSessionWebSocketTask, didCloseWith closeCode: URLSessionWebSocketTask.CloseCode, reason: Data?) {
+        self.delegate?.onDisconnected(connection: self, error: nil)
     }
 }
-

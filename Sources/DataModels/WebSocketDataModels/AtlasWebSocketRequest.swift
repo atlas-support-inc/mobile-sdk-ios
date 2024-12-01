@@ -11,7 +11,7 @@ struct WebSocketRequest: Codable {
     let channelId: String
     let channelKind: String
     let packetType: String
-    let payload: String
+    let payload: Payload
     
     enum CodingKeys: String, CodingKey {
         case channelId = "channel_id"
@@ -19,4 +19,8 @@ struct WebSocketRequest: Codable {
         case packetType = "packet_type"
         case payload
     }
+}
+
+struct Payload: Codable {
+    
 }
