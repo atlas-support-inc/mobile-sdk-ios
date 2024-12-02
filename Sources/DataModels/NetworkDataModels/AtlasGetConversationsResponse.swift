@@ -15,25 +15,10 @@ struct AtlasGetConversationsResponse: Codable {
 
 struct Conversation: Codable {
     let id: String?
-    let startedChannel: Int?
     let status: String?
     let messages: [Message]
-    let closedAt: String?
-    let activities: [String]
-    let lastMessage: Message?
-    let assignedAgent: Agent?
-    let number: Int?
-    let customerId: String?
-    let customer: Customer?
-    let createdAt: String?
-    let subject: String?
-    let companyId: String?
-    let lastMessageId: String?
-    let updatedAt: String?
-    let lastMessageAt: String?
 }
 
-// MARK: - Message
 struct Message: Codable {
     let side: Int?
     let id: MessageID?

@@ -40,9 +40,17 @@ class AtlasViewModel {
         
     }
         
-    func onAtlasScriptMessage(_ message: String) {
+    func onAtlasScriptMessage(_ message: AtlasWebViewMessage) {
         // TO DO: Parce message and retrive atlassId
-        let atlassId = message
-        userService.setAtlasId(atlassId)
+        switch message.type {
+        case .changeIdentity:
+            let atlasId = message.atlasId
+            userService.setAtlasId(atlasId)
+        case .newTicket:
+            if let ticketId = message.ticketId { AtlasSDK.onNewTicket(id: ticketId) }
+        case .error:
+            if let errorMessage = message.errorMessage { AtlasSDK.onError(errorMessage) }
+        }
+    
     }
 }

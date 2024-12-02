@@ -7,30 +7,18 @@
 
 import Foundation
 
-struct AtlasWebSocketPacket: Codable {
-    let packet_type: PacketType
-    let payload: AtlasWebSocketPayload
-}
-
-struct AtlasWebSocketPayload: Codable {
-    let conversation: AtlasWebSocketConversation
-    let conversationId: String
-    let message: AtlasWebSocketMessage
-}
-
-struct AtlasWebSocketConversation: Codable {
-    
-}
-
 struct AtlasWebSocketMessage: Codable {
-    let conversationId: String
+    let channelId: String
+    let channelKind: String
+    let packetType: String
+    let payload: Payload
+    
+    enum CodingKeys: String, CodingKey {
+        case channelId = "channel_id"
+        case channelKind = "channel_kind"
+        case packetType = "packet_type"
+        case payload
+    }
 }
 
-enum PacketType: String, Codable {
-    case conversationUpdated = "CONVERSATION_UPDATED"
-    case agentMessage = "AGENT_MESSAGE"
-    case botMessage = "BOT_MESSAGE"
-    case messageRead = "MESSAGE_READ"
-    case chatWidgetRespons = "CHATBOT_WIDGET_RESPONS"
-    case conversationHidden = "CONVERSATION_HIDDEN"
-}
+struct Payload: Codable {}

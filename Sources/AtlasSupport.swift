@@ -14,6 +14,7 @@ public class AtlasSupport: WKWebView {
 // Make all functs optionals
 public protocol AtlasSDKDelegate: AnyObject {
     func onAtlasError(message: String)
+    func onAtlasNewTicket(_ id: String)
     func onAtlasStatsUpdate(conversations: [AtlasConversationStats])
 }
 
@@ -25,13 +26,6 @@ public class AtlasSDK {
     /// be set before using getAtlasViewController() or any other public methods.
     internal static var appId: String = ""
     private static var viewController: AtlasViewController?
-    
-    /// External communication handlers
-    private static var atlasSDKDelegates: [(any AtlasSDKDelegate)?] = []
-    
-    private static var atlasSDKOnErroHandlers: [(String) -> ()] = []
-    private static var atlasSDKOnNewTicketHandlers: [(String) -> ()] = []
-    private static var atlasSDKStatsUpdateHandlers: [([AtlasConversationStats]) -> ()] = []
     
     private static let atlasUserService = AtlasUserService()
     private static let atlasSDKQueue = DispatchQueue(label: "com.atlasSDK",
@@ -78,25 +72,38 @@ public class AtlasSDK {
         }
     }
     
-    static public func updateCustomField(ticketId: String, data: [String : Data]) {
+    static public func updateCustomField(ticketId: String, data: [String: Data]) {
         atlasUserService.updateCustomFields(ticketId: ticketId,
                                             data: data)
     }
 }
 
 internal extension AtlasSDK {
-    static func onError(_ error: Error) {
-        atlasSDKOnErroHandlers.forEach { $0(error.localizedDescription) }
-        atlasSDKDelegates.forEach { $0?.onAtlasError(message: error.localizedDescription)}
+    /// External communication handlers
+    private static var atlasSDKDelegates: [(any AtlasSDKDelegate)?] = []
+    
+    private static var atlasSDKOnErroHandlers: [(String) -> ()] = []
+    private static var atlasSDKOnNewTicketHandlers: [(String) -> ()] = []
+    private static var atlasSDKStatsUpdateHandlers: [([AtlasConversationStats]) -> ()] = []
+    
+    /// Notify external handlers
+    static func onError(_ error: String) {
+        atlasSDKOnErroHandlers.forEach { $0(error) }
+        atlasSDKDelegates.forEach { $0?.onAtlasError(message: error)}
     }
     
     static func onStatsUpdate(_ conversations: [AtlasConversationStats]) {
         atlasSDKStatsUpdateHandlers.forEach { $0(conversations) }
         atlasSDKDelegates.forEach { $0?.onAtlasStatsUpdate(conversations: conversations) }
     }
+    
+    static func onNewTicket(id: String) {
+        atlasSDKOnNewTicketHandlers.forEach { $0(id) }
+        atlasSDKDelegates.forEach { $0?.onAtlasNewTicket(id) }
+    }
 }
 
-/// External communication handlers
+/// Public setters for external handlers
 public extension AtlasSDK {
     static func setAtlasSDKDelegate(_ delegate: any AtlasSDKDelegate) {
         weak var weakDelegate = delegate
@@ -107,12 +114,12 @@ public extension AtlasSDK {
         atlasSDKDelegates.removeAll(where: { $0 === delegate })
     }
     
-    static func setAtlasSDKOnErroHandler(_ handler: @escaping (String?) -> ()) {
+    static func setAtlasSDKOnErroHandler(_ handler: @escaping (String) -> ()) {
         atlasSDKOnErroHandlers.append(handler)
     }
     
-    static func removeAtlasSDKOnErroHandler(_ handler: @escaping (String?) -> ()) {
-//        atlasSDKOnErroHandlers.removeAll { $0 === handler }
+    static func removeAtlasSDKOnErroHandler(_ handler: @escaping (String) -> ()) {
+//        atlasSDKOnErroHandlers.removeAll { ObjectIdentifier($0) == ObjectIdentifier(handler) }
     }
     
     static func setAtlasSDKOnNewTicketHandler(_ handler: @escaping (String) -> ()) {
@@ -120,6 +127,14 @@ public extension AtlasSDK {
     }
     
     static func removeAtlasSDKOnNewTicketHandler(_ handler: @escaping (String) -> ()) {
-//        atlasSDKOnNewTicketHandlers.removeAll { $0 === handler }
+//        atlasSDKOnNewTicketHandlers.removeAll { ObjectIdentifier($0) == ObjectIdentifier(handler) }
+    }
+    
+    static func setAtlasSDKStatsUpdateHandlers(_ handler: @escaping ([AtlasConversationStats]) -> ()) {
+        atlasSDKStatsUpdateHandlers.append(handler)
+    }
+    
+    static func removeAtlasSDKOnNewTicketHandler(_ handler: @escaping ([AtlasConversationStats]) -> ()) {
+//        atlasSDKStatsUpdateHandlers.removeAll { ObjectIdentifier($0) == ObjectIdentifier(handler) }
     }
 }

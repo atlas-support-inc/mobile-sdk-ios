@@ -10,7 +10,7 @@ import Foundation
 protocol WebSocketConnection {
     var delegate: WebSocketConnectionDelegate? { get set }
     
-    func sendMessage(_ request: WebSocketRequest)
+    func sendMessage(_ message: AtlasWebSocketMessage)
     func connect(atlasId: String)
     func disconnect()
 }
@@ -31,7 +31,6 @@ class AtlasWebSocketService: NSObject, WebSocketConnection, URLSessionWebSocketD
     private let webSocketMessageParser = AtlasWebSocketMessageParser()
     
     func connect(atlasId: String) {
-        
         var urlComponents = URLComponents()
         urlComponents.scheme = AtlasNetworkURLs.ATLAS_WEB_SOCKET_SCHEME
         urlComponents.host = AtlasNetworkURLs.ATLAS_WEB_SOCKET_BASE_URL
@@ -43,8 +42,13 @@ class AtlasWebSocketService: NSObject, WebSocketConnection, URLSessionWebSocketD
             return
         }
         
-        urlSession = URLSession(configuration: .default, delegate: self, delegateQueue: delegateQueue)
-        webSocketTask = urlSession?.webSocketTask(with: url)
+        let configuration = URLSessionConfiguration.default
+        let urlRequest = URLRequest(url: url, timeoutInterval: 60)
+        
+        urlSession = URLSession(configuration: configuration,
+                                delegate: self,
+                                delegateQueue: delegateQueue)
+        webSocketTask = urlSession?.webSocketTask(with: urlRequest)
         
         webSocketTask?.resume()
         
@@ -64,9 +68,11 @@ class AtlasWebSocketService: NSObject, WebSocketConnection, URLSessionWebSocketD
             case .success(let message):
                 switch message {
                 case .string(let text):
-                    break
-//                    guard let parsedMessage = webSocketMessageParser.parse(data) else { return }
-//                    self.delegate?.onMessage(connection: self, data: data)
+                    guard
+                        let jsonData = text.data(using: .utf8),
+                        let parsedMessage = self.webSocketMessageParser.parse(jsonData)
+                    else { return }
+                    self.delegate?.onMessage(connection: self, data: parsedMessage)
                 case .data(let data):
                     guard let parsedMessage = self.webSocketMessageParser.parse(data) else { return }
                     self.delegate?.onMessage(connection: self, data: parsedMessage)
@@ -79,10 +85,11 @@ class AtlasWebSocketService: NSObject, WebSocketConnection, URLSessionWebSocketD
         }
     }
     
-    func sendMessage(_ request: WebSocketRequest) {
+    func sendMessage(_ message: AtlasWebSocketMessage) {
         do {
-            let jsonData = try JSONEncoder().encode(request)
-            let message = URLSessionWebSocketTask.Message.data(jsonData)
+            let jsonData = try JSONEncoder().encode(message)
+            let stringData = String(data: jsonData, encoding: .utf8) ?? ""
+            let message = URLSessionWebSocketTask.Message.string(stringData)
             webSocketTask?.send(message) { [weak self] error in
                 guard let self = self else { return }
                 if let error = error {
