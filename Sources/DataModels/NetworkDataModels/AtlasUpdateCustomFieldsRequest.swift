@@ -9,6 +9,6 @@ import Foundation
 
 struct AtlasUpdateCustomFieldsRequest: Codable {
     let conversationId: String
-    let customFields: [String : Data]
+    let customFields: [String: Data]
 }
 

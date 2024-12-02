@@ -44,6 +44,7 @@
 		4242727B2CFA4289004C9B68 /* AtlasConversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4242727A2CFA4289004C9B68 /* AtlasConversation.swift */; };
 		4242727D2CFA534F004C9B68 /* AtlasUpdateCustomFieldsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4242727C2CFA534F004C9B68 /* AtlasUpdateCustomFieldsResponse.swift */; };
 		424272812CFA5F9B004C9B68 /* AtlasGetConversationsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424272802CFA5F9B004C9B68 /* AtlasGetConversationsResponse.swift */; };
+		424272842CFE02B9004C9B68 /* AtlasWebViewMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424272832CFE02B9004C9B68 /* AtlasWebViewMessage.swift */; };
 		42D5B85E2CF64751004E8FBA /* AtlasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D5B85D2CF64751004E8FBA /* AtlasViewController.swift */; };
 		42D5B8602CF64781004E8FBA /* AtlasViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D5B85F2CF64781004E8FBA /* AtlasViewModel.swift */; };
 		42D5B8632CF64E8D004E8FBA /* AtlasNetworkURLs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D5B8622CF64E8D004E8FBA /* AtlasNetworkURLs.swift */; };
@@ -56,8 +57,8 @@
 		42D5B8752CF65EC6004E8FBA /* AtlasNetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D5B8742CF65EC6004E8FBA /* AtlasNetworkError.swift */; };
 		42D5B8782CF66F1B004E8FBA /* AtlasWebSocketService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D5B8772CF66F1B004E8FBA /* AtlasWebSocketService.swift */; };
 		42D5B87A2CF694B5004E8FBA /* AtlasWebSocketMessageParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D5B8792CF694B5004E8FBA /* AtlasWebSocketMessageParser.swift */; };
-		42D5B87C2CF694FC004E8FBA /* AtlasWebSocketRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D5B87B2CF694FC004E8FBA /* AtlasWebSocketRequest.swift */; };
-		42D5B87F2CF695F6004E8FBA /* AtlasWebSocketMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D5B87E2CF695F6004E8FBA /* AtlasWebSocketMessage.swift */; };
+		42D5B87C2CF694FC004E8FBA /* AtlasWebSocketMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D5B87B2CF694FC004E8FBA /* AtlasWebSocketMessage.swift */; };
+		42D5B87F2CF695F6004E8FBA /* AtlasWebSocketPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D5B87E2CF695F6004E8FBA /* AtlasWebSocketPacket.swift */; };
 		48C10B9A539A0C5ABB40C060BCFA6A5D /* QuickTestObservation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887758EE2D86731E64552DE35DC0035B /* QuickTestObservation.swift */; };
 		4A457767C9968D139BD8AAD877DFC117 /* ThrowError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1C96AA6B530E65DF71C6A98C66BAB4 /* ThrowError.swift */; settings = {COMPILER_FLAGS = "-DPRODUCT_NAME=Nimble/Nimble"; }; };
 		4AB3E5CA752435B21E7EBC018EE8CE58 /* ExampleMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7257CDD5305E867BF5296DC8E03BF3F6 /* ExampleMetadata.swift */; };
@@ -222,6 +223,7 @@
 		4242727A2CFA4289004C9B68 /* AtlasConversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtlasConversation.swift; sourceTree = "<group>"; };
 		4242727C2CFA534F004C9B68 /* AtlasUpdateCustomFieldsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtlasUpdateCustomFieldsResponse.swift; sourceTree = "<group>"; };
 		424272802CFA5F9B004C9B68 /* AtlasGetConversationsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtlasGetConversationsResponse.swift; sourceTree = "<group>"; };
+		424272832CFE02B9004C9B68 /* AtlasWebViewMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtlasWebViewMessage.swift; sourceTree = "<group>"; };
 		42D5B85D2CF64751004E8FBA /* AtlasViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtlasViewController.swift; sourceTree = "<group>"; };
 		42D5B85F2CF64781004E8FBA /* AtlasViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtlasViewModel.swift; sourceTree = "<group>"; };
 		42D5B8622CF64E8D004E8FBA /* AtlasNetworkURLs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtlasNetworkURLs.swift; sourceTree = "<group>"; };
@@ -234,8 +236,8 @@
 		42D5B8742CF65EC6004E8FBA /* AtlasNetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtlasNetworkError.swift; sourceTree = "<group>"; };
 		42D5B8772CF66F1B004E8FBA /* AtlasWebSocketService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtlasWebSocketService.swift; sourceTree = "<group>"; };
 		42D5B8792CF694B5004E8FBA /* AtlasWebSocketMessageParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtlasWebSocketMessageParser.swift; sourceTree = "<group>"; };
-		42D5B87B2CF694FC004E8FBA /* AtlasWebSocketRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtlasWebSocketRequest.swift; sourceTree = "<group>"; };
-		42D5B87E2CF695F6004E8FBA /* AtlasWebSocketMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtlasWebSocketMessage.swift; sourceTree = "<group>"; };
+		42D5B87B2CF694FC004E8FBA /* AtlasWebSocketMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtlasWebSocketMessage.swift; sourceTree = "<group>"; };
+		42D5B87E2CF695F6004E8FBA /* AtlasWebSocketPacket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtlasWebSocketPacket.swift; sourceTree = "<group>"; };
 		440DC50D2334546C99DBFC2B6E15B31B /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		4A68929567C7B44CBB5DE74D57741AB4 /* Pods-AtlasSupportSDK_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AtlasSupportSDK_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		5100F28739CC7C42E629FEFA59D6EDD6 /* ToSucceed.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ToSucceed.swift; path = Sources/Nimble/Matchers/ToSucceed.swift; sourceTree = "<group>"; };
@@ -443,6 +445,14 @@
 			path = ../..;
 			sourceTree = "<group>";
 		};
+		424272822CFE02A6004C9B68 /* WebView */ = {
+			isa = PBXGroup;
+			children = (
+				424272832CFE02B9004C9B68 /* AtlasWebViewMessage.swift */,
+			);
+			path = WebView;
+			sourceTree = "<group>";
+		};
 		42D5B85C2CF6471A004E8FBA /* AtlasView */ = {
 			isa = PBXGroup;
 			children = (
@@ -484,6 +494,7 @@
 		42D5B86C2CF65A5B004E8FBA /* DataModels */ = {
 			isa = PBXGroup;
 			children = (
+				424272822CFE02A6004C9B68 /* WebView */,
 				42D5B87D2CF695D8004E8FBA /* WebSocketDataModels */,
 				42D5B86F2CF65E84004E8FBA /* NetworkDataModels */,
 				42D5B86D2CF65A72004E8FBA /* AtlasUser.swift */,
@@ -516,8 +527,8 @@
 		42D5B87D2CF695D8004E8FBA /* WebSocketDataModels */ = {
 			isa = PBXGroup;
 			children = (
-				42D5B87E2CF695F6004E8FBA /* AtlasWebSocketMessage.swift */,
-				42D5B87B2CF694FC004E8FBA /* AtlasWebSocketRequest.swift */,
+				42D5B87E2CF695F6004E8FBA /* AtlasWebSocketPacket.swift */,
+				42D5B87B2CF694FC004E8FBA /* AtlasWebSocketMessage.swift */,
 			);
 			path = WebSocketDataModels;
 			sourceTree = "<group>";
@@ -1122,10 +1133,11 @@
 			files = (
 				42D5B87A2CF694B5004E8FBA /* AtlasWebSocketMessageParser.swift in Sources */,
 				42D5B8602CF64781004E8FBA /* AtlasViewModel.swift in Sources */,
+				424272842CFE02B9004C9B68 /* AtlasWebViewMessage.swift in Sources */,
 				9A5B89288DB07366E0B281BB468E22A4 /* AtlasSupportSDK-dummy.m in Sources */,
 				42D5B8692CF6576F004E8FBA /* AtlasLocalStorageService.swift in Sources */,
 				42D5B8712CF65E94004E8FBA /* AtlasLoginRequest.swift in Sources */,
-				42D5B87C2CF694FC004E8FBA /* AtlasWebSocketRequest.swift in Sources */,
+				42D5B87C2CF694FC004E8FBA /* AtlasWebSocketMessage.swift in Sources */,
 				42D5B8652CF6566A004E8FBA /* AtlasUserService.swift in Sources */,
 				42D5B86B2CF658EA004E8FBA /* AtlasNetworkService.swift in Sources */,
 				42D5B85E2CF64751004E8FBA /* AtlasViewController.swift in Sources */,
@@ -1135,7 +1147,7 @@
 				424272812CFA5F9B004C9B68 /* AtlasGetConversationsResponse.swift in Sources */,
 				4242727B2CFA4289004C9B68 /* AtlasConversation.swift in Sources */,
 				42D5B8752CF65EC6004E8FBA /* AtlasNetworkError.swift in Sources */,
-				42D5B87F2CF695F6004E8FBA /* AtlasWebSocketMessage.swift in Sources */,
+				42D5B87F2CF695F6004E8FBA /* AtlasWebSocketPacket.swift in Sources */,
 				424272792CFA13DC004C9B68 /* AtlasUpdateCustomFieldsRequest.swift in Sources */,
 				4242727D2CFA534F004C9B68 /* AtlasUpdateCustomFieldsResponse.swift in Sources */,
 				42D5B8732CF65EAD004E8FBA /* AtlasLoginResponse.swift in Sources */,

@@ -21,7 +21,7 @@ enum AtlasNetworkURLs {
     
     static let ATLAS_API_BASE_URL = "app.atlas.so"
     static let LOGIN_URL_PATH = "/api/client-app/company/identify"
-    static let UPDATE_TICKET_URL =  "/client-app/ticket/"
+    static let UPDATE_TICKET_URL =  "/api/client-app/ticket/"
     static let UPDATE_CUSTOM_FIELDS_URL =  "/update_custom_fields"
     static let GET_CONVERSATIONS_URL =  "/api/client-app/conversations/"
     

@@ -75,7 +75,6 @@ internal class AtlasNetworkService {
         task.resume()
     }
     
-    
     func updateCustomFields(with request: AtlasUpdateCustomFieldsRequest,
                             for userId: String,
                             _ completion: @escaping (Result<AtlasUpdateCustomFieldsResponse, AtlasNetworkError>) -> ()) {
@@ -89,7 +88,7 @@ internal class AtlasNetworkService {
         urlComponents.scheme = AtlasNetworkURLs.SCHEME
         urlComponents.host = AtlasNetworkURLs.ATLAS_API_BASE_URL
         urlComponents.path = AtlasNetworkURLs.UPDATE_TICKET_URL
-        urlComponents.path.append("/\(userId)")
+        urlComponents.path.append(userId)
         urlComponents.path.append(AtlasNetworkURLs.UPDATE_CUSTOM_FIELDS_URL)
         
         // Ensure the URL is valid

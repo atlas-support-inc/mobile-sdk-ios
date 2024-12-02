@@ -78,11 +78,16 @@ class AtlasViewController: UIViewController {
 extension AtlasViewController: WKScriptMessageHandler {
     /// Handle messages from JavaScript
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-        print(message)
-        if message.name == "atlasiOSHandler", let body = message.body as? String {
-            print("Message received from JavaScript: \(body)")
-            viewModel.onAtlasScriptMessage(body)
-            loadAtlasWebApp()
+        if message.name == "atlas",
+           let body = message.body as? String,
+           let jsonData = body.data(using: .utf8) {
+            do {
+                let webViewMessage = try JSONDecoder().decode(AtlasWebViewMessage.self, from: jsonData)
+                viewModel.onAtlasScriptMessage(webViewMessage)
+                loadAtlasWebApp()
+            } catch let error {
+                print("AtlasSDK Error: Failed to decode AtlasWebViewMessage.")
+            }
         }
     }
 }
