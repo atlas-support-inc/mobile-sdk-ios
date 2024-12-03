@@ -51,13 +51,14 @@ internal class AtlasUserService {
     }
     
     func updateCustomFields(ticketId: String,
-                            data: [String : Data]) {
+                            data: [String : Any]) {
         guard let atlasId = self.atlasId else {
             print("AtlasSDK Error: Failed to update custom field. userId is not defined.")
             return
         }
-        let updateCustomFieldsRequest = AtlasUpdateCustomFieldsRequest(conversationId: ticketId, customFields: data)
-        networkService.updateCustomFields(with: updateCustomFieldsRequest,
+
+        networkService.updateCustomFields(with: data,
+                                          ticketId: ticketId,
                                           for: atlasId) { result in
             switch result {
             case .success(_):
@@ -122,8 +123,8 @@ extension AtlasUserService: WebSocketConnectionDelegate {
     
     func onMessage(connection: any WebSocketConnection, data: AtlasWebSocketPacket) {
         switch data.packet_type {
-        case .conversationUpdated, .botMessage, .messageRead:
-            if let conversation = data.payload.conversation {
+        case .conversationUpdated, .botMessage, .messageRead, .agentMessage:
+            if let conversation = data.payload.atlasWebSocketConversation {
                 let atlasConversation = getConversationStats(conversation: conversation)
                 updateConversationStats(conversation: atlasConversation)
             }
@@ -131,7 +132,7 @@ extension AtlasUserService: WebSocketConnectionDelegate {
             addChatBotResponseCount(conversation: data)
         case .conversationHidden:
             conversations = conversations.filter { $0.id != data.payload.conversationId }
-        case .agentMessage:
+        case .agentTyping:
             break
         }
     }
@@ -149,7 +150,7 @@ extension AtlasUserService: WebSocketConnectionDelegate {
 extension AtlasUserService {
     /// Update conversations array by searching given conversation by id.
     func addChatBotResponseCount(conversation: AtlasWebSocketPacket) {
-        guard let message = conversation.payload.message else { return }
+        guard let message = conversation.payload.atlasWebSocketPayloadMessage else { return }
         if let messageIndex
             = conversations
             .firstIndex(where: { $0.id == message.conversationId }) {
@@ -158,7 +159,7 @@ extension AtlasUserService {
                                      closed: conversations[messageIndex].closed,
                                      unreanCount: conversations[messageIndex].unreanCount + 1)
         } else {
-            conversations.append(AtlasConversationStats(id: message.conversationId,
+            conversations.append(AtlasConversationStats(id: message.conversationId ?? "",
                                                         closed: false,
                                                         unreanCount: 1))
         }
@@ -191,15 +192,24 @@ extension AtlasUserService {
     }
     
     func getConversationStats(conversation: AtlasWebSocketConversation) -> AtlasConversationStats {
-        let unreadCount = conversation.messages.filter { message in
+        let unreadCount = conversation.messages?.filter { message in
             guard let isRead = message.read, !isRead else { return false }
             return message.side == MessageSide.BOT.rawValue || message.side == MessageSide.AGENT.rawValue
         }.count
         
-        let id = conversation.id ?? "unknown"
+        var id = ""
+        switch conversation.id {
+        case .int(let intId):
+            id = String(intId)
+        case .string(let itrId):
+            id = itrId
+        default:
+            id = ""
+        }
+        
         let closed = conversation.status == "closed" // Assuming `status` indicates if it's closed
         
-        return AtlasConversationStats(id: id, closed: closed, unreanCount: unreadCount)
+        return AtlasConversationStats(id: id, closed: closed, unreanCount: unreadCount ?? 0)
     }
     
 }

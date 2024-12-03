@@ -75,11 +75,23 @@ internal class AtlasNetworkService {
         task.resume()
     }
     
-    func updateCustomFields(with request: AtlasUpdateCustomFieldsRequest,
+    func updateCustomFields(with data: [String : Any],
+                            ticketId: String,
                             for userId: String,
                             _ completion: @escaping (Result<AtlasUpdateCustomFieldsResponse, AtlasNetworkError>) -> ()) {
-        // Use JSONEncoder to convert the Codable object to JSON data
-        guard let jsonData = try? JSONEncoder().encode(request) else {
+        let map = ["text" : "Test string",
+                   "number" : 1
+        ] as [String : Any]
+        
+        let strMap = "\(map)"
+        
+        let requestSTR =
+        """
+            { "customFields": \(strMap),
+              "conversationId" : \(ticketId) }
+        """
+        
+        guard let jsonData = try? JSONEncoder().encode(requestSTR) else {
             completion(.failure(.encodingJSONError("Error: Failed to encode request data")))
             return;
         }
@@ -92,7 +104,7 @@ internal class AtlasNetworkService {
         urlComponents.path.append(AtlasNetworkURLs.UPDATE_CUSTOM_FIELDS_URL)
         
         // Ensure the URL is valid
-        // https://app.atlas.so/client-app/ticket/$userId/update_custom_fields
+        // https://app.atlas.so/api/client-app/ticket/$userId/update_custom_fields
         guard let url = urlComponents.url else {
             completion(.failure(.invalidURL("Invalid URL.: " + urlComponents.description)));
             return

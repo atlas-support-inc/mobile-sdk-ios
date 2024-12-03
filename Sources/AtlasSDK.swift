@@ -1,17 +1,5 @@
 import WebKit
 
-var urlBase = "https://atlas-embed-termosa.vercel.app/"
-
-public class AtlasSupport: WKWebView {
-    
-    public func startChat(appId: String, userId: String, userHash: String, userName: String = "", userEmail: String = "") {
-        let urlParams = "appId=\(appId)&userId=\(userId)&userHash=\(userHash)&userName=\(userName)&userEmail=\(userEmail)"
-        guard let url = URL(string: "\(urlBase)?\(urlParams)") else { return }
-        load(URLRequest(url: url))
-    }
-}
-
-// Make all functs optionals
 public protocol AtlasSDKDelegate: AnyObject {
     func onAtlasError(message: String)
     func onAtlasNewTicket(_ id: String)
@@ -19,7 +7,6 @@ public protocol AtlasSDKDelegate: AnyObject {
 }
 
 public class AtlasSDK {
-    
     /// Private initializer prevents instances
     private init() {}
     /// The appId is empty by default and must
@@ -29,6 +16,7 @@ public class AtlasSDK {
     
     private static let atlasUserService = AtlasUserService()
     private static let atlasSDKQueue = DispatchQueue(label: "com.atlasSDK",
+                                                     qos: .userInitiated,
                                                      attributes: .concurrent)
 
     static public func setAppId(_ appId: String) {
@@ -72,9 +60,11 @@ public class AtlasSDK {
         }
     }
     
-    static public func updateCustomField(ticketId: String, data: [String: Data]) {
-        atlasUserService.updateCustomFields(ticketId: ticketId,
-                                            data: data)
+    static public func updateCustomField(ticketId: String, data: [String: Any]) {
+        atlasSDKQueue.async() {
+            atlasUserService.updateCustomFields(ticketId: ticketId,
+                                                data: data)
+        }
     }
 }
 
