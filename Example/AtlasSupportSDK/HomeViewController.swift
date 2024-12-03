@@ -44,7 +44,9 @@ class HomeViewController: UIViewController {
         let ticketID = "b0357db3-b9b8-49a7-99e6-a235778c7312"
         if let data = try? JSONEncoder().encode("Test string") {
             
-            let map = ["Text" : data]
+            let map = ["text" : data
+                     
+            ]
             
             AtlasSDK.updateCustomField(ticketId: ticketID, data: map)
         }

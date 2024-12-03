@@ -72,6 +72,7 @@ class AtlasWebSocketService: NSObject, WebSocketConnection, URLSessionWebSocketD
                         let jsonData = text.data(using: .utf8),
                         let parsedMessage = self.webSocketMessageParser.parse(jsonData)
                     else { return }
+                    
                     self.delegate?.onMessage(connection: self, data: parsedMessage)
                 case .data(let data):
                     guard let parsedMessage = self.webSocketMessageParser.parse(data) else { return }

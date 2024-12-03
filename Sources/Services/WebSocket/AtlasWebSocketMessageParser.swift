@@ -10,10 +10,12 @@ import Foundation
 class AtlasWebSocketMessageParser {
 
     func parse(_ data: Data) -> AtlasWebSocketPacket? {
-        guard let packet = try? JSONDecoder().decode(AtlasWebSocketPacket.self, from: data) else {
+        do {
+            let packet = try JSONDecoder().decode(AtlasWebSocketPacket.self, from: data)
+            return packet
+        } catch let error {
             print("AtlasSDK Error: Can not parse web socket message.")
             return nil
         }
-        return packet
     }
 }
