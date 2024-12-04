@@ -18,6 +18,7 @@ enum AtlasNetworkURLs {
     static let PARAM_USER_HASH = "userHash"
     static let PARAM_USER_NAME = "userName"
     static let PARAM_USER_EMAIL = "userEmail"
+    static let PARAM_CHATBOT = "chatbot"
     
     static let ATLAS_API_BASE_URL = "app.atlas.so"
     static let LOGIN_URL_PATH = "/api/client-app/company/identify"

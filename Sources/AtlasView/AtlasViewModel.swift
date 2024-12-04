@@ -12,6 +12,9 @@ class AtlasViewModel {
     let appId: String
     let userService: AtlasUserService
     
+    var chat: String = ""
+
+    
     init(appId: String, userService: AtlasUserService) {
         self.appId = appId
         self.userService = userService
@@ -28,7 +31,8 @@ class AtlasViewModel {
             URLQueryItem(name: AtlasNetworkURLs.PARAM_USER_ID, value: ""),
             URLQueryItem(name: AtlasNetworkURLs.PARAM_USER_HASH, value: ""),
             URLQueryItem(name: AtlasNetworkURLs.PARAM_USER_NAME, value: ""),
-            URLQueryItem(name: AtlasNetworkURLs.PARAM_USER_EMAIL, value: "")
+            URLQueryItem(name: AtlasNetworkURLs.PARAM_USER_EMAIL, value: ""),
+            URLQueryItem(name: AtlasNetworkURLs.PARAM_CHATBOT, value: chat)
         ]
         
         /// Ensure the URL is valid
