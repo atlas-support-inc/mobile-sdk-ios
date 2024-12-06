@@ -76,7 +76,8 @@ internal class AtlasUserService {
             return
         }
         networkService.getAllConversations(with: atlasId) { [weak self] result in
-            self?.subscribeToWatchStats() // Attempt to open a socket connection.
+            /// Attempt to open a socket connection.
+            self?.subscribeToWatchStats()
             guard let self = self else { return }
             switch result {
             case .success(let response):
@@ -134,11 +135,14 @@ extension AtlasUserService: WebSocketConnectionDelegate {
             conversations = conversations.filter { $0.id != data.payload.conversationId }
         case .agentTyping:
             break
+        case .undefined, .pong:
+            break
         }
     }
     
     func onDisconnected(connection: any WebSocketConnection, error: (any Error)?) {
-        
+        /// WebSocket connection is not stable. It disconnects time to time (gets killed by the system). Reconnecting when disconnecting
+        subscribeToWatchStats()
     }
     
     func onError(connection: any WebSocketConnection, error: any Error) {

@@ -85,7 +85,7 @@ extension AtlasViewController: WKScriptMessageHandler {
                 let webViewMessage = try JSONDecoder().decode(AtlasWebViewMessage.self, from: jsonData)
                 viewModel.onAtlasScriptMessage(webViewMessage)
                 loadAtlasWebApp()
-            } catch let error {
+            } catch {
                 print("AtlasSDK Error: Failed to decode AtlasWebViewMessage.")
             }
         }

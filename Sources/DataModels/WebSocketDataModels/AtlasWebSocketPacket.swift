@@ -22,7 +22,7 @@ struct AtlasWebSocketPayload: Codable {
             do {
                 let message = try JSONDecoder().decode(AtlasWebSocketPayloadMessage.self, from: data)
                 return message
-            } catch let error {
+            } catch {
                 print("AtlasSDK Error: Can not parse web socket message.")
                 return nil
             }
@@ -35,7 +35,7 @@ struct AtlasWebSocketPayload: Codable {
             do {
                 let conversation = try JSONDecoder().decode(AtlasWebSocketConversation.self, from: data)
                 return conversation
-            } catch let error {
+            } catch {
                 print("AtlasSDK Error: Can not parse web socket message.")
                 return nil
             }
@@ -64,6 +64,8 @@ enum PacketType: String, Codable {
     case chatWidgetRespons = "CHATBOT_WIDGET_RESPONS"
     case conversationHidden = "CONVERSATION_HIDDEN"
     case agentTyping = "AGENT_TYPING"
+    case pong = "PONG"
+    case undefined
 }
 
 enum AtlasWebSocketConversationID: Codable {
