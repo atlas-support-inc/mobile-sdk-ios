@@ -28,7 +28,7 @@ Mobile version of getatlas.io embed real-time chat widget with file attachments,
   s.source           = { :git => 'https://github.com/atlas-support-inc/mobile-sdk-ios.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.ios.deployment_target = '12.0'
+  s.ios.deployment_target = '13.0'
 
   s.source_files = 'Sources/**/*'
   s.swift_version = '4.0'
