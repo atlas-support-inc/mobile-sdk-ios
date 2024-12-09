@@ -23,7 +23,7 @@ struct AtlasWebSocketPayload: Codable {
                 let message = try JSONDecoder().decode(AtlasWebSocketPayloadMessage.self, from: data)
                 return message
             } catch {
-                print("AtlasSDK Error: Can not parse web socket message.")
+//                print("AtlasSDK Error: Can not parse web socket message.")
                 return nil
             }
         }
@@ -36,7 +36,7 @@ struct AtlasWebSocketPayload: Codable {
                 let conversation = try JSONDecoder().decode(AtlasWebSocketConversation.self, from: data)
                 return conversation
             } catch {
-                print("AtlasSDK Error: Can not parse web socket message.")
+//                print("AtlasSDK Error: Can not parse web socket message.")
                 return nil
             }
         }

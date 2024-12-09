@@ -161,11 +161,11 @@ extension AtlasUserService {
             conversations[messageIndex]
             = AtlasConversationStats(id: conversations[messageIndex].id,
                                      closed: conversations[messageIndex].closed,
-                                     unreanCount: conversations[messageIndex].unreanCount + 1)
+                                     unreadCount: conversations[messageIndex].unreadCount + 1)
         } else {
             conversations.append(AtlasConversationStats(id: message.conversationId ?? "",
                                                         closed: false,
-                                                        unreanCount: 1))
+                                                        unreadCount: 1))
         }
     }
     
@@ -192,7 +192,7 @@ extension AtlasUserService {
         let id = conversation.id ?? "unknown"
         let closed = conversation.status == "closed" // Assuming `status` indicates if it's closed
         
-        return AtlasConversationStats(id: id, closed: closed, unreanCount: unreadCount)
+        return AtlasConversationStats(id: id, closed: closed, unreadCount: unreadCount)
     }
     
     func getConversationStats(conversation: AtlasWebSocketConversation) -> AtlasConversationStats {
@@ -205,15 +205,15 @@ extension AtlasUserService {
         switch conversation.id {
         case .int(let intId):
             id = String(intId)
-        case .string(let itrId):
-            id = itrId
+        case .string(let intId):
+            id = intId
         default:
             id = ""
         }
         
         let closed = conversation.status == "closed" // Assuming `status` indicates if it's closed
         
-        return AtlasConversationStats(id: id, closed: closed, unreanCount: unreadCount ?? 0)
+        return AtlasConversationStats(id: id, closed: closed, unreadCount: unreadCount ?? 0)
     }
     
 }

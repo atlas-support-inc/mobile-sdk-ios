@@ -86,7 +86,7 @@ extension AtlasViewController: WKScriptMessageHandler {
                 viewModel.onAtlasScriptMessage(webViewMessage)
                 loadAtlasWebApp()
             } catch {
-                print("AtlasSDK Error: Failed to decode AtlasWebViewMessage.")
+//                print("AtlasSDK Error: Failed to decode AtlasWebViewMessage.")
             }
         }
     }

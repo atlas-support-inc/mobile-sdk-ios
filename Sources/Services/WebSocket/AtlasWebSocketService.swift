@@ -78,7 +78,7 @@ class AtlasWebSocketService: NSObject, WebSocketConnection, URLSessionWebSocketD
                     guard let parsedMessage = self.webSocketMessageParser.parse(data) else { return }
                     self.delegate?.onMessage(connection: self, data: parsedMessage)
                 @unknown default:
-                    fatalError()
+                    break
                 }
                 
                 self.listen()
