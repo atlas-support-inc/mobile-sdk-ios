@@ -54,17 +54,6 @@ class HomeViewController: UIViewController {
         view.endEditing(true)
     }
     
-    @objc private func updateCustomButtonAction() {
-        let customField = customFieldTextField.text ?? ""
-        let ticketID = "b0357db3-b9b8-49a7-99e6-a235778c7312"
-        if let data = try? JSONEncoder().encode(customField) {
-            
-            let map = ["text" : data]
-            
-            AtlasSDK.updateCustomField(ticketId: ticketID, data: map)
-        }
-    }
-    
     private func updateUnreadMessagesLabel(count: Int) {
         unreadMessagesLabel.text = "You have \(count) unread messages"
     }
@@ -90,19 +79,15 @@ class HomeViewController: UIViewController {
                                   tag: 2)
         
         view.addSubview(userIDTextField)
-        view.addSubview(customFieldTextField)
         view.addSubview(botIDTextField)
         view.addSubview(chatButton)
         view.addSubview(identifyButton)
-        view.addSubview(updateCustomField)
         view.addSubview(unreadMessagesLabel)
         
         userIDTextField.translatesAutoresizingMaskIntoConstraints = false
-        customFieldTextField.translatesAutoresizingMaskIntoConstraints = false
         botIDTextField.translatesAutoresizingMaskIntoConstraints = false
         chatButton.translatesAutoresizingMaskIntoConstraints = false
         identifyButton.translatesAutoresizingMaskIntoConstraints = false
-        updateCustomField.translatesAutoresizingMaskIntoConstraints = false
         unreadMessagesLabel.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
@@ -117,17 +102,10 @@ class HomeViewController: UIViewController {
             identifyButton.topAnchor.constraint(equalTo: botIDTextField.bottomAnchor, constant: 20),
             identifyButton.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
             
-            customFieldTextField.topAnchor.constraint(equalTo: identifyButton.bottomAnchor, constant: 40),
-            customFieldTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            customFieldTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            
-            updateCustomField.topAnchor.constraint(equalTo: customFieldTextField.bottomAnchor, constant: 20),
-            updateCustomField.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
-            
             chatButton.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: -50),
             chatButton.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
             
-            unreadMessagesLabel.topAnchor.constraint(equalTo: updateCustomField.bottomAnchor, constant: 40),
+            unreadMessagesLabel.topAnchor.constraint(equalTo: identifyButton.bottomAnchor, constant: 40),
             unreadMessagesLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             unreadMessagesLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
         ])
@@ -142,13 +120,6 @@ class HomeViewController: UIViewController {
     private let userIDTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Enter User ID"
-        textField.borderStyle = .roundedRect
-        return textField
-    }()
-    
-    private let customFieldTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "Enter Custom 'TEXT' Field"
         textField.borderStyle = .roundedRect
         return textField
     }()
@@ -177,16 +148,6 @@ class HomeViewController: UIViewController {
         button.backgroundColor = UIColor.lightGray
         button.layer.cornerRadius = 4
         button.addTarget(self, action: #selector(identifyButtonAction), for: .touchUpInside)
-        return button
-    }()
-    
-    private(set) lazy var updateCustomField = {
-        let button = UIButton(type: .custom)
-        button.setTitle(" Update Custom Field ", for: .normal)
-        button.setTitleColor(UIColor.black, for: .normal)
-        button.backgroundColor = UIColor.lightGray
-        button.layer.cornerRadius = 4
-        button.addTarget(self, action: #selector(updateCustomButtonAction), for: .touchUpInside)
         return button
     }()
     

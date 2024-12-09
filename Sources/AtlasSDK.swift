@@ -62,12 +62,13 @@ public class AtlasSDK {
         }
     }
     
-    static public func updateCustomField(ticketId: String, data: [String: Any]) {
-        atlasSDKQueue.async() {
-            atlasUserService.updateCustomFields(ticketId: ticketId,
-                                                data: data)
-        }
-    }
+/// Coming in future versions
+//    static public func updateCustomField(ticketId: String, data: [String: Any]) {
+//        atlasSDKQueue.async() {
+//            atlasUserService.updateCustomFields(ticketId: ticketId,
+//                                                data: data)
+//        }
+//    }
 }
 
 internal extension AtlasSDK {
