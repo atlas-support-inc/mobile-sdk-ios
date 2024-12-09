@@ -14,7 +14,7 @@ class AtlasWebSocketMessageParser {
             let packet = try JSONDecoder().decode(AtlasWebSocketPacket.self, from: data)
             return packet
         } catch {
-            print("AtlasSDK Error: Can not parse web socket message.")
+//            print("AtlasSDK Error: Can not parse web socket message.")
             return nil
         }
     }

@@ -122,7 +122,7 @@ public extension AtlasSDK {
 //        atlasSDKOnNewTicketHandlers.removeAll { ObjectIdentifier($0) == ObjectIdentifier(handler) }
     }
     
-    static func setAtlasSDKStatsUpdateHandlers(_ handler: @escaping ([AtlasConversationStats]) -> ()) {
+    static func setAtlasSDKStatsUpdateHandler(_ handler: @escaping ([AtlasConversationStats]) -> ()) {
         atlasSDKStatsUpdateHandlers.append(handler)
     }
     

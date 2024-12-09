@@ -11,11 +11,15 @@ import UIKit
 import AtlasSupportSDK
 
 class TabBarController: UITabBarController {
+    
+    let appId = "kxjfzvo5pp"
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-
+        
+        AtlasSDK.setAppId(appId)
+        
         setupTabBar()
         setupTabs()
     }
@@ -33,7 +37,6 @@ class TabBarController: UITabBarController {
         ]
         
         let appId = "a95uw0hfsr"
-        AtlasSDK.setAppId(appId)
         if let atlassViewController = AtlasSDK.getAtlassViewController() {
             atlassViewController.tabBarItem = UITabBarItem(title: "Online help",
                                                            image: UIImage(systemName: "message.circle"),

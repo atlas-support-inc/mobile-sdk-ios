@@ -13,14 +13,17 @@ import AtlasSupportSDK
 class HomeViewController: UIViewController {
     
     let userId = "14f4771a-c43a-473c-ad22-7d3c5b8dd736"
-    let appId = "kxjfzvo5pp"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        AtlasSDK.setAppId(appId)
+        /// Add Atlas Delegate or Event handling closures.
         AtlasSDK.setAtlasSDKDelegate(self)
+        AtlasSDK.setAtlasSDKOnErroHandler(atlasErrorHandler)
+        AtlasSDK.setAtlasSDKStatsUpdateHandler(atlasStatsUpdateHandler)
+        AtlasSDK.setAtlasSDKOnNewTicketHandler(atlasOnNewTicketHandler)
         
+        /// Configure your base UI
         configureLayout()
         setupGesture()
         
@@ -28,17 +31,18 @@ class HomeViewController: UIViewController {
         userIDTextField.text = userId
     }
     
-    @objc func chatButtonAction() {
+    @objc private func chatButtonAction() {
         let botID = botIDTextField.text ?? ""
         guard let atlassViewController = AtlasSDK.getAtlassViewController(botID) else {
             print("HomeViewController Error: Can not create AtlasSDK View Controller")
             return
         }
         
+        updateUnreadMessagesLabel(count: 0)
         navigationController?.present(atlassViewController, animated: true)
     }
     
-    @objc func identifyButtonAction() {
+    @objc private func identifyButtonAction() {
         let userID = userIDTextField.text ?? ""
         AtlasSDK.identify(userId: userID,
                           userHash: nil,
@@ -50,7 +54,7 @@ class HomeViewController: UIViewController {
         view.endEditing(true)
     }
     
-    @objc func updateCustomButtonAction() {
+    @objc private func updateCustomButtonAction() {
         let customField = customFieldTextField.text ?? ""
         let ticketID = "b0357db3-b9b8-49a7-99e6-a235778c7312"
         if let data = try? JSONEncoder().encode(customField) {
@@ -59,6 +63,24 @@ class HomeViewController: UIViewController {
             
             AtlasSDK.updateCustomField(ticketId: ticketID, data: map)
         }
+    }
+    
+    private func updateUnreadMessagesLabel(count: Int) {
+        unreadMessagesLabel.text = "You have \(count) unread messages"
+    }
+    
+    private func atlasErrorHandler(_ error: String) {
+        print(error)
+    }
+    
+    private func atlasStatsUpdateHandler(_ conversations: [AtlasConversationStats]) {
+        DispatchQueue.main.async { [weak self] in
+            self?.updateUnreadMessagesLabel(count: conversations.map { $0.unreadCount }.reduce(0, { $0 + $1 }) )
+        }
+    }
+    
+    private func atlasOnNewTicketHandler(_ error: String) {
+        print(error)
     }
     
     private func configureLayout() {
@@ -73,7 +95,7 @@ class HomeViewController: UIViewController {
         view.addSubview(chatButton)
         view.addSubview(identifyButton)
         view.addSubview(updateCustomField)
-        
+        view.addSubview(unreadMessagesLabel)
         
         userIDTextField.translatesAutoresizingMaskIntoConstraints = false
         customFieldTextField.translatesAutoresizingMaskIntoConstraints = false
@@ -81,6 +103,7 @@ class HomeViewController: UIViewController {
         chatButton.translatesAutoresizingMaskIntoConstraints = false
         identifyButton.translatesAutoresizingMaskIntoConstraints = false
         updateCustomField.translatesAutoresizingMaskIntoConstraints = false
+        unreadMessagesLabel.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
             userIDTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
@@ -102,7 +125,11 @@ class HomeViewController: UIViewController {
             updateCustomField.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
             
             chatButton.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: -50),
-            chatButton.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor)
+            chatButton.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
+            
+            unreadMessagesLabel.topAnchor.constraint(equalTo: updateCustomField.bottomAnchor, constant: 40),
+            unreadMessagesLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            unreadMessagesLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
         ])
     }
     
@@ -162,18 +189,21 @@ class HomeViewController: UIViewController {
         button.addTarget(self, action: #selector(updateCustomButtonAction), for: .touchUpInside)
         return button
     }()
+    
+    private let unreadMessagesLabel: UILabel = {
+        let label = UILabel()
+        label.text = "You have 0 unread messages"
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        label.textColor = .black
+        return label
+    }()
 }
 
 extension HomeViewController: AtlasSDKDelegate {
-    func onAtlasNewTicket(_ id: String) {
-        
-    }
+    func onAtlasNewTicket(_ id: String) { }
     
-    func onAtlasStatsUpdate(conversations: [AtlasSupportSDK.AtlasConversationStats]) {
-        
-    }
+    func onAtlasStatsUpdate(conversations: [AtlasSupportSDK.AtlasConversationStats]) { }
     
-    func onAtlasError(message: String) {
-        
-    }
+    func onAtlasError(message: String) { }
 }

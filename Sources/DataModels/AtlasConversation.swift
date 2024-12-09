@@ -8,7 +8,7 @@
 import Foundation
 
 public struct AtlasConversationStats: Codable {
-    let id: String
-    let closed: Bool
-    let unreanCount: Int
+    public let id: String
+    public let closed: Bool
+    public let unreadCount: Int
 }
