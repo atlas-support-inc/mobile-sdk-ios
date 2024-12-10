@@ -1,9 +1,9 @@
 import WebKit
 
 public protocol AtlasSDKDelegate: AnyObject {
-    func onAtlasError(message: String)
-    func onAtlasNewTicket(_ id: String)
-    func onAtlasStatsUpdate(conversations: [AtlasConversationStats])
+    func onError(message: String)
+    func onNewTicket(_ id: String)
+    func onStatsUpdate(conversations: [AtlasConversationStats])
 }
 
 public class AtlasSDK {
@@ -82,17 +82,17 @@ internal extension AtlasSDK {
     /// Notify external handlers
     static func onError(_ error: String) {
         atlasSDKOnErroHandlers.forEach { $0(error) }
-        atlasSDKDelegates.forEach { $0?.onAtlasError(message: error)}
+        atlasSDKDelegates.forEach { $0?.onError(message: error)}
     }
     
     static func onStatsUpdate(_ conversations: [AtlasConversationStats]) {
         atlasSDKStatsUpdateHandlers.forEach { $0(conversations) }
-        atlasSDKDelegates.forEach { $0?.onAtlasStatsUpdate(conversations: conversations) }
+        atlasSDKDelegates.forEach { $0?.onStatsUpdate(conversations: conversations) }
     }
     
     static func onNewTicket(id: String) {
         atlasSDKOnNewTicketHandlers.forEach { $0(id) }
-        atlasSDKDelegates.forEach { $0?.onAtlasNewTicket(id) }
+        atlasSDKDelegates.forEach { $0?.onNewTicket(id) }
     }
 }
 

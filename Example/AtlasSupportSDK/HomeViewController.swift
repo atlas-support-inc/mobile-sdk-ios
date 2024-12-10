@@ -162,9 +162,9 @@ class HomeViewController: UIViewController {
 }
 
 extension HomeViewController: AtlasSDKDelegate {
-    func onAtlasNewTicket(_ id: String) { }
+    func onNewTicket(_ id: String) { }
     
-    func onAtlasStatsUpdate(conversations: [AtlasSupportSDK.AtlasConversationStats]) { }
+    func onStatsUpdate(conversations: [AtlasSupportSDK.AtlasConversationStats]) { }
     
-    func onAtlasError(message: String) { }
+    func onError(message: String) { }
 }
