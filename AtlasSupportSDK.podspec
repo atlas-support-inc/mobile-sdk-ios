@@ -8,8 +8,8 @@
 
 Pod::Spec.new do |s|
   s.name             = 'AtlasSupportSDK'
-  s.version          = '0.0.2'
-  s.summary          = 'Mobile version of getatlas.io embed widget.'
+  s.version          = '0.0.3'
+  s.summary          = 'Mobile version of atlas.so embed widget.'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -18,10 +18,10 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-Mobile version of getatlas.io embed real-time chat widget with file attachments, embed forms, auto responses, and integrated Help Center articles.
+Mobile version of atlas.so embed real-time chat widget with file attachments, embed forms, auto responses, and integrated Help Center articles.
                        DESC
 
-  s.homepage         = 'https://getatlas.io'
+  s.homepage         = 'https://atlas.so'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Atlas Support Inc' => 'engineering@getatlas.io' }
