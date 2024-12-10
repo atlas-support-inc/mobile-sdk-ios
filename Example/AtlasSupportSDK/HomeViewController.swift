@@ -18,10 +18,10 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         
         /// Add Atlas Delegate or Event handling closures.
-        AtlasSDK.setAtlasSDKDelegate(self)
-        AtlasSDK.setAtlasSDKOnErroHandler(atlasErrorHandler)
-        AtlasSDK.setAtlasSDKStatsUpdateHandler(atlasStatsUpdateHandler)
-        AtlasSDK.setAtlasSDKOnNewTicketHandler(atlasOnNewTicketHandler)
+        AtlasSDK.setDelegate(self)
+        AtlasSDK.setOnErroHandler(atlasErrorHandler)
+        AtlasSDK.setStatsUpdateHandler(atlasStatsUpdateHandler)
+        AtlasSDK.setOnNewTicketHandler(atlasOnNewTicketHandler)
         
         /// Configure your base UI
         configureLayout()
