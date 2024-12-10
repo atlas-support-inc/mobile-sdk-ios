@@ -98,36 +98,36 @@ internal extension AtlasSDK {
 
 /// Public setters for external handlers
 public extension AtlasSDK {
-    static func setAtlasSDKDelegate(_ delegate: any AtlasSDKDelegate) {
+    static func setDelegate(_ delegate: any AtlasSDKDelegate) {
         weak var weakDelegate = delegate
         atlasSDKDelegates.append(weakDelegate)
     }
     
-    static func removeAtlasSDKDelegate(_ delegate: any AtlasSDKDelegate) {
+    static func removeDelegate(_ delegate: any AtlasSDKDelegate) {
         atlasSDKDelegates.removeAll(where: { $0 === delegate })
     }
     
-    static func setAtlasSDKOnErroHandler(_ handler: @escaping (String) -> ()) {
+    static func setOnErroHandler(_ handler: @escaping (String) -> ()) {
         atlasSDKOnErroHandlers.append(handler)
     }
     
-    static func removeAtlasSDKOnErroHandler(_ handler: @escaping (String) -> ()) {
+    static func removeOnErroHandler(_ handler: @escaping (String) -> ()) {
 //        atlasSDKOnErroHandlers.removeAll { ObjectIdentifier($0) == ObjectIdentifier(handler) }
     }
     
-    static func setAtlasSDKOnNewTicketHandler(_ handler: @escaping (String) -> ()) {
+    static func setOnNewTicketHandler(_ handler: @escaping (String) -> ()) {
         atlasSDKOnNewTicketHandlers.append(handler)
     }
     
-    static func removeAtlasSDKOnNewTicketHandler(_ handler: @escaping (String) -> ()) {
+    static func removeOnNewTicketHandler(_ handler: @escaping (String) -> ()) {
 //        atlasSDKOnNewTicketHandlers.removeAll { ObjectIdentifier($0) == ObjectIdentifier(handler) }
     }
     
-    static func setAtlasSDKStatsUpdateHandler(_ handler: @escaping ([AtlasConversationStats]) -> ()) {
+    static func setStatsUpdateHandler(_ handler: @escaping ([AtlasConversationStats]) -> ()) {
         atlasSDKStatsUpdateHandlers.append(handler)
     }
     
-    static func removeAtlasSDKOnNewTicketHandler(_ handler: @escaping ([AtlasConversationStats]) -> ()) {
+    static func removeOnNewTicketHandler(_ handler: @escaping ([AtlasConversationStats]) -> ()) {
 //        atlasSDKStatsUpdateHandlers.removeAll { ObjectIdentifier($0) == ObjectIdentifier(handler) }
     }
 }
