@@ -39,7 +39,7 @@ In any file where you want to use the SDK, import it:
 import AtlasSupportSDK
 ```
 
-In the example, we import the SDK into HomeViewController and TabBarController because these are the two navigation points leading to the AtlasViewController.
+In this example, we import the SDK into HomeViewController and TabBarController because these are the two navigation points leading to the AtlasViewController.
 
 ---
 
@@ -50,16 +50,16 @@ Call the appropriate initialization and configuration methods erly. Depends on y
 For example:
 
 ```swift
-let appId = "kxjfzvo5pp"
-
-AtlasSDK.setAppId(appId)
+AtlasSDK.setAppId("YOUR_APP_ID")
 ```
+
+You can find `YOUR_APP_ID` in the Atlas application: https://app.atlas.so/settings/company
 
 ---
 
 ### Presenting the Atlas Chat ViewController
 
-The getAtlassViewController method can return an optional value. This occurs if the appId is not provided, which is required for initializing the SDK correctly.
+The `getAtlassViewController` method can return an optional value. This occurs if the appId is not provided, which is required for initializing the SDK correctly.
 
 ```swift
 guard let atlassViewController = AtlasSDK.getAtlassViewController() else {
@@ -72,57 +72,34 @@ navigationController?.present(atlassViewController, animated: true)
 
 ---
 
-### Guest Mode and User Identification 
+### User Identification 
 
-The Atlas SDK allows the chat to operate in guest mode by default. In this mode, conversations are initiated without associating them with a specific user account. However, developers can link the chat to a user account by calling the `identify` method with a valid user ID.
-
-The `identify` method can be used in the following scenarios:
-
-1. Before Presenting the Chat:
-
-If the user is already authenticated in your app, you can call `identify` before presenting the chat. This ensures that all conversations are tied to the authenticated user from the beginning.
-
-2. After Starting a Guest Conversation:
-
-If the user starts a chat as a guest but later logs in or authenticates within your app, you can call `identify`. This action links the ongoing conversation and its history to the user's account.
+The Atlas SDK allows the chat to operate without identification. In this case, conversations are initiated without associating them with a specific customer. However, developers can link conversations to existing customer by calling the `identify` method with a valid user ID.
 
 ```swift
 // Identify a user before presenting the chat
-let userID = userIDTextField.text ?? "authenticated-user-id"
-AtlasSDK.identify(userId: userIDTextField.text, 
-                  userHash: nil, 
-                  userName: "John Doe", 
-                  userEmail: "john.doe@example.com")
+AtlasSDK.identify(userId: "UNIQUE_USER_IDENTIFIER", 
+                  userHash: nil, // Required if authenication is enabled in Atlas Configuration
+                  userName: "John Doe", // Optional
+                  userEmail: "john.doe@example.com") // Optional
 
 // Proceed to present the chat
-if let chatViewController = AtlasSDK.getAtlassViewController("bot-id") {
+if let chatViewController = AtlasSDK.getAtlassViewController() {
     navigationController?.present(chatViewController, animated: true)
 }
-```
-
-OR
-
-```swift
-let userID = userIDTextField.text ?? ""
-AtlasSDK.identify(userId: userID, 
-                  userHash: nil, 
-                  userName: nil, 
-                  userEmail: nil)
-
 ```
 
 ---
 
 ### Customization 
 
-It's possible to pass chat bot id to a `getAtlassViewController` to open specified chat bot to handle possible customer request.
+It's possible to pass chatbot key to a `getAtlassViewController` to open specified chatbot to handle possible customer request.
 ```swift
-let botID = botIDTextField.text ?? ""
-guard let atlassViewController = AtlasSDK.getAtlassViewController(botID) else {
+guard let atlassViewController = AtlasSDK.getAtlassViewController("CHATBOT_KEY") else {
     print("HomeViewController Error: Can not create AtlasSDK View Controller")
     return
 }
-  
+
 navigationController?.present(atlassViewController, animated: true)
 ```
 
