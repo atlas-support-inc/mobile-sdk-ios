@@ -12,8 +12,7 @@ class AtlasViewModel {
     let appId: String
     let userService: AtlasUserService
     
-    var chat: String = ""
-
+    var query: String = ""
     
     init(appId: String, userService: AtlasUserService) {
         self.appId = appId
@@ -25,6 +24,11 @@ class AtlasViewModel {
         urlComponents.scheme = AtlasNetworkURLs.SCHEME
         urlComponents.host = AtlasNetworkURLs.ATLAS_WIDGET_BASE_URL
         
+        let encodedQuery = query
+            .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)?
+            .replacingOccurrences(of: ":", with: "%3A")
+            .replacingOccurrences(of: ";", with: "%3B")
+        
         urlComponents.queryItems = [
             URLQueryItem(name: AtlasNetworkURLs.PARAM_APP_ID, value: appId),
             URLQueryItem(name: AtlasNetworkURLs.PARAM_ATLAS_ID, value: userService.atlasId),
@@ -32,9 +36,9 @@ class AtlasViewModel {
             URLQueryItem(name: AtlasNetworkURLs.PARAM_USER_HASH, value: ""),
             URLQueryItem(name: AtlasNetworkURLs.PARAM_USER_NAME, value: ""),
             URLQueryItem(name: AtlasNetworkURLs.PARAM_USER_EMAIL, value: ""),
-            URLQueryItem(name: AtlasNetworkURLs.PARAM_CHATBOT, value: chat)
+            URLQueryItem(name: AtlasNetworkURLs.PARAM_QUERY, value: encodedQuery)
         ]
-        
+
         /// Ensure the URL is valid
         guard let url = urlComponents.url else {
             return nil
