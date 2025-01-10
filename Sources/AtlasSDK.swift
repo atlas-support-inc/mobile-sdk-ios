@@ -27,7 +27,7 @@ public class AtlasSDK {
         AtlasSDK.appId = appId
     }
             
-    static public func getAtlassViewController(_ chatbot: String = "") -> UIViewController? {
+    static public func getAtlassViewController(query: String = "") -> UIViewController? {
         guard !appId.isEmpty else {
             print("AtlasSDK Error: App ID cannot be empty.")
             return nil
@@ -36,7 +36,7 @@ public class AtlasSDK {
         let viewModel = AtlasViewModel(appId: appId,
                                        userService: atlasUserService)
         
-        viewModel.chat = chatbot
+        viewModel.query = query
         let viewController = AtlasViewController(viewModel: viewModel)
         self.viewController = viewController
         
