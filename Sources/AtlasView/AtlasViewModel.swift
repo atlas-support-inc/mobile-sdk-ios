@@ -28,6 +28,7 @@ class AtlasViewModel {
             .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)?
             .replacingOccurrences(of: ":", with: "%3A")
             .replacingOccurrences(of: ";", with: "%3B")
+            .replacingOccurrences(of: "?", with: "%3F")
         
         urlComponents.queryItems = [
             URLQueryItem(name: AtlasNetworkURLs.PARAM_APP_ID, value: appId),
