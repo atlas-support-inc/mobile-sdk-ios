@@ -24,11 +24,11 @@ class AtlasViewModel {
         urlComponents.scheme = AtlasNetworkURLs.SCHEME
         urlComponents.host = AtlasNetworkURLs.ATLAS_WIDGET_BASE_URL
         
+        let unreservedCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_.~"
+        let allowedCharacters = CharacterSet(charactersIn: unreservedCharacters)
+
         let encodedQuery = query
-            .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)?
-            .replacingOccurrences(of: ":", with: "%3A")
-            .replacingOccurrences(of: ";", with: "%3B")
-            .replacingOccurrences(of: "?", with: "%3F")
+            .addingPercentEncoding(withAllowedCharacters: allowedCharacters)
         
         urlComponents.queryItems = [
             URLQueryItem(name: AtlasNetworkURLs.PARAM_APP_ID, value: appId),
