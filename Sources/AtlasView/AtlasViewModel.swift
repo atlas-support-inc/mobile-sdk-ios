@@ -24,20 +24,10 @@ class AtlasViewModel {
         urlComponents.scheme = AtlasNetworkURLs.SCHEME
         urlComponents.host = AtlasNetworkURLs.ATLAS_WIDGET_BASE_URL
         
-        let unreservedCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_.~"
-        let allowedCharacters = CharacterSet(charactersIn: unreservedCharacters)
-
-        let encodedQuery = query
-            .addingPercentEncoding(withAllowedCharacters: allowedCharacters)
-        
         urlComponents.queryItems = [
             URLQueryItem(name: AtlasNetworkURLs.PARAM_APP_ID, value: appId),
             URLQueryItem(name: AtlasNetworkURLs.PARAM_ATLAS_ID, value: userService.atlasId),
-            URLQueryItem(name: AtlasNetworkURLs.PARAM_USER_ID, value: ""),
-            URLQueryItem(name: AtlasNetworkURLs.PARAM_USER_HASH, value: ""),
-            URLQueryItem(name: AtlasNetworkURLs.PARAM_USER_NAME, value: ""),
-            URLQueryItem(name: AtlasNetworkURLs.PARAM_USER_EMAIL, value: ""),
-            URLQueryItem(name: AtlasNetworkURLs.PARAM_QUERY, value: encodedQuery)
+            URLQueryItem(name: AtlasNetworkURLs.PARAM_QUERY, value: query)
         ]
 
         /// Ensure the URL is valid
@@ -46,7 +36,6 @@ class AtlasViewModel {
         }
         
         return URLRequest(url: url)
-        
     }
         
     func onAtlasScriptMessage(_ message: AtlasWebViewMessage) {
