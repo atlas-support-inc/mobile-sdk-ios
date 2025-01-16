@@ -18,7 +18,7 @@ struct AtlasLoginRequest: Codable {
         case appId = "appId"
         case userId = "userId"
         case userHash = "userHash"
-        case userName = "userName"
-        case userEmail = "userEmail"
+        case userName = "name"
+        case userEmail = "email"
     }
 }

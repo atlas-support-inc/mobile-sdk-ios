@@ -47,8 +47,8 @@ class HomeViewController: UIViewController {
         let userID = userIDTextField.text ?? ""
         AtlasSDK.identify(userId: userID,
                           userHash: nil,
-                          userName: nil,
-                          userEmail: nil)
+                          userName: "Test 123",
+                          userEmail: "Test123@atlas.so")
     }
     
     @objc private func hideKeyboard() {
