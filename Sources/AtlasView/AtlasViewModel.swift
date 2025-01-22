@@ -13,6 +13,14 @@ class AtlasViewModel {
     let userService: AtlasUserService
     
     var query: String = ""
+    var sdkVersionName: String {
+        let bundle = Bundle(identifier: "org.cocoapods.AtlasSupportSDK")
+        let version
+        = (bundle?.infoDictionary?["CFBundleShortVersionString"] as? String) ?? "Unknown"
+        let sdkVersionParam = "swift@\(version)"
+        
+        return sdkVersionParam
+    }
     
     init(appId: String, userService: AtlasUserService) {
         self.appId = appId
@@ -26,8 +34,9 @@ class AtlasViewModel {
         
         urlComponents.queryItems = [
             URLQueryItem(name: AtlasNetworkURLs.PARAM_APP_ID, value: appId),
-            URLQueryItem(name: AtlasNetworkURLs.PARAM_ATLAS_ID, value: userService.atlasId),
-            URLQueryItem(name: AtlasNetworkURLs.PARAM_QUERY, value: query)
+            URLQueryItem(name: AtlasNetworkURLs.PARAM_ATLAS_ID, value: userService.atlasId ?? ""),
+            URLQueryItem(name: AtlasNetworkURLs.PARAM_QUERY, value: query),
+            URLQueryItem(name: AtlasNetworkURLs.PARAM_SDK_VERSION, value: sdkVersionName),
         ]
 
         /// Ensure the URL is valid
