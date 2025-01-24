@@ -6,9 +6,9 @@ public protocol AtlasSDKDelegate: AnyObject {
     func onStatsUpdate(conversations: [AtlasConversationStats])
 }
 
-public class AtlasSDK {
+@objc public class AtlasSDK: NSObject {
     /// Private initializer prevents instances
-    private init() {}
+    private override init() {}
     /// The appId is empty by default and must
     /// be set before using getAtlasViewController() or any other public methods.
     internal static var appId: String = ""
@@ -19,7 +19,7 @@ public class AtlasSDK {
                                                      qos: .userInitiated,
                                                      attributes: .concurrent)
 
-    static public func setAppId(_ appId: String) {
+    @objc static public func setAppId(_ appId: String) {
         guard !appId.isEmpty else {
             print("AtlasSDK Error: App ID cannot be empty.")
             return
@@ -27,7 +27,7 @@ public class AtlasSDK {
         AtlasSDK.appId = appId
     }
             
-    static public func getAtlassViewController(query: String = "") -> UIViewController? {
+    @objc static public func getAtlassViewController(query: String = "") -> UIViewController? {
         guard !appId.isEmpty else {
             print("AtlasSDK Error: App ID cannot be empty.")
             return nil
@@ -43,7 +43,7 @@ public class AtlasSDK {
         return viewController
     }
     
-    static public func identify(userId: String?,
+    @objc static public func identify(userId: String?,
                                 userHash: String?,
                                 userName: String?,
                                 userEmail: String?) {
@@ -80,7 +80,7 @@ internal extension AtlasSDK {
     private static var atlasSDKStatsUpdateHandlers: [([AtlasConversationStats]) -> ()] = []
     
     /// Notify external handlers
-    static func onError(_ error: String) {
+    @objc static func onError(_ error: String) {
         atlasSDKOnErroHandlers.forEach { $0(error) }
         atlasSDKDelegates.forEach { $0?.onError(message: error)}
     }
@@ -90,7 +90,7 @@ internal extension AtlasSDK {
         atlasSDKDelegates.forEach { $0?.onStatsUpdate(conversations: conversations) }
     }
     
-    static func onNewTicket(id: String) {
+    @objc static func onNewTicket(id: String) {
         atlasSDKOnNewTicketHandlers.forEach { $0(id) }
         atlasSDKDelegates.forEach { $0?.onNewTicket(id) }
     }

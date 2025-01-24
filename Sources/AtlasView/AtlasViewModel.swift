@@ -7,7 +7,7 @@
 
 import Foundation
 
-class AtlasViewModel {
+@objc class AtlasViewModel: NSObject {
     
     let appId: String
     let userService: AtlasUserService
