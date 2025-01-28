@@ -15,7 +15,7 @@ platform :ios, '13.0'
 use_frameworks!
 
 target 'YourApp' do
-  pod 'AtlasSupportSDK', '~> 0.0.3'
+  pod 'AtlasSupportSDK', '~> 0.0.6'
 end
 ```
 
@@ -93,15 +93,22 @@ if let chatViewController = AtlasSDK.getAtlassViewController() {
 
 ### Customization 
 
-It's possible to pass chatbot key to a `getAtlassViewController` to open specified chatbot to handle possible customer request.
-```swift
-guard let atlassViewController = AtlasSDK.getAtlassViewController("CHATBOT_KEY") else {
-    print("HomeViewController Error: Can not create AtlasSDK View Controller")
-    return
-}
+It's possible to pass `query` key to a `getAtlassViewController` to configure the behavior or content of the returned AtlasFragment. (For ex: open specified chatbot to handle possible customer request)
 
-navigationController?.present(atlassViewController, animated: true)
+**Default value:** "" (empty string).
+**Expected format:** "key1: value1; key2: value2; ...."
+
+```swift
+    val atlasFragment = AtlasSdk.getAtlasFragment(query = "chatbotKey: n_other_topics; prefer: last")
 ```
+
+chatbotKey: Specifies the context or topic key for the chatbot.
+
+Example: `n_other_topics might` refer to general or miscellaneous topics.
+
+prefer: Defines a preference or mode of operation.
+
+Example: `last` indicate prioritization of recent interactions.
 
 ---
 
