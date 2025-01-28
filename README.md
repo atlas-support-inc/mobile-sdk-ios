@@ -100,16 +100,12 @@ It's possible to pass `query` key to a `getAtlassViewController` to configure th
 **Expected format:** "key1: value1; key2: value2; ...."
 
 ```swift
-    val atlasFragment = AtlasSdk.getAtlasFragment(query = "chatbotKey: n_other_topics; prefer: last")
+    val atlasFragment = AtlasSdk.getAtlasFragment(query = "chatbotKey: report_bug; prefer: last")
 ```
 
-**`chatbotKey:`** Specifies the context or topic key for the chatbot.
+**`chatbotKey: KEY`** Specifies the chatbot that has to be started immediately when AtlasFragment is loaded
 
-Example: `n_other_topics might` refer to general or miscellaneous topics.
-
-**`prefer:`** Defines a preference or mode of operation.
-
-Example: `last` indicate prioritization of recent interactions.
+**`prefer: last`** Instead of starting new chatbot everytime it will open the last not completed chatbot if exists
 
 ---
 
