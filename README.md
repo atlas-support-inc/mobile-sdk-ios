@@ -103,11 +103,11 @@ It's possible to pass `query` key to a `getAtlassViewController` to configure th
     val atlasFragment = AtlasSdk.getAtlasFragment(query = "chatbotKey: n_other_topics; prefer: last")
 ```
 
-`**chatbotKey:**` Specifies the context or topic key for the chatbot.
+**`chatbotKey:`** Specifies the context or topic key for the chatbot.
 
 Example: `n_other_topics might` refer to general or miscellaneous topics.
 
-`**prefer:**` Defines a preference or mode of operation.
+**`prefer:`** Defines a preference or mode of operation.
 
 Example: `last` indicate prioritization of recent interactions.
 
