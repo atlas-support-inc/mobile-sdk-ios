@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'AtlasSupportSDK'
-  s.version          = '0.0.6'
+  s.version          = '0.1.0'
   s.summary          = 'Mobile version of atlas.so embed widget.'
 
 # This description is used to generate tags and improve search results.
