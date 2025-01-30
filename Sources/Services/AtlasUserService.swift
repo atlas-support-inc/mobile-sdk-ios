@@ -116,7 +116,7 @@ extension AtlasUserService: WebSocketConnectionDelegate {
             channelId: atlasId,
             channelKind: "CUSTOMER",
             packetType: "SUBSCRIBE",
-            payload: "{}"
+            payload: .init()
         )
         
         webSocketConnection.sendMessage(request)
@@ -142,7 +142,7 @@ extension AtlasUserService: WebSocketConnectionDelegate {
     
     func onDisconnected(connection: any WebSocketConnection, error: (any Error)?) {
         /// WebSocket connection is not stable. It disconnects time to time (gets killed by the system). Reconnecting when disconnecting
-        subscribeToWatchStats()
+//        subscribeToWatchStats()
     }
     
     func onError(connection: any WebSocketConnection, error: any Error) {
