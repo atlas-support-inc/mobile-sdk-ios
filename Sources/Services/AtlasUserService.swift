@@ -116,7 +116,7 @@ extension AtlasUserService: WebSocketConnectionDelegate {
             channelId: atlasId,
             channelKind: "CUSTOMER",
             packetType: "SUBSCRIBE",
-            payload: Payload()
+            payload: "{}"
         )
         
         webSocketConnection.sendMessage(request)

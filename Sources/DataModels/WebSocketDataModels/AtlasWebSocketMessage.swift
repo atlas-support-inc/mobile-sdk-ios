@@ -11,13 +11,13 @@ struct AtlasWebSocketMessage: Codable {
     let channelId: String
     let channelKind: String
     let packetType: String
-    let payload: Payload
+    let payload: String
     
     enum CodingKeys: String, CodingKey {
         case channelId = "channel_id"
         case channelKind = "channel_kind"
         case packetType = "packet_type"
-        case payload
+        case payload = "{}"
     }
 }
 
