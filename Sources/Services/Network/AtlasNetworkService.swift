@@ -14,6 +14,7 @@ internal class AtlasNetworkService {
                userHash: String?,
                userName: String?,
                userEmail: String?,
+               phoneNumber: String?,
                _ completion: @escaping (Result<AtlasLoginResponse, AtlasNetworkError>) -> ()) {
         
         let loginRequest = AtlasLoginRequest(
@@ -21,7 +22,8 @@ internal class AtlasNetworkService {
             userId: userId,
             userHash: userHash,
             userName: userName,
-            userEmail: userEmail
+            userEmail: userEmail,
+            phoneNumber: phoneNumber
         )
         
         // Use JSONEncoder to convert the Codable object to JSON data

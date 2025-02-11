@@ -33,13 +33,15 @@ internal class AtlasUserService {
                     userId: String?,
                     userHash: String?,
                     userName: String?,
-                    userEmail: String?) {
+                    userEmail: String?,
+                    phoneNumber: String?) {
         networkService.login(
             appId: appId,
             userId: userId,
             userHash: userHash,
             userName: userName,
-            userEmail: userEmail) { [weak self] result in
+            userEmail: userEmail,
+            phoneNumber: phoneNumber) { [weak self] result in
                 switch result {
                 case .success(let loginResponse):
                     let atlasUser = AtlasUser(atlasId: loginResponse.id)

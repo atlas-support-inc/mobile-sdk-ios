@@ -45,8 +45,9 @@ public protocol AtlasSDKDelegate: AnyObject {
     
     @objc static public func identify(userId: String?,
                                 userHash: String?,
-                                userName: String?,
-                                userEmail: String?) {
+                                name: String?,
+                                email: String?,
+                                phoneNumber: String?) {
         guard !appId.isEmpty else {
             print("AtlasSDK Error: App ID cannot be empty.")
             return
@@ -57,8 +58,22 @@ public protocol AtlasSDKDelegate: AnyObject {
                     appId: appId,
                     userId: userId,
                     userHash: userHash,
-                    userName: userName,
-                    userEmail: userEmail)
+                    userName: name,
+                    userEmail: email,
+                    phoneNumber: phoneNumber)
+        }
+    }
+    
+    @objc static public func logout() {
+        atlasSDKQueue.async() {
+            atlasUserService
+                .restorUser(
+                    appId: appId,
+                    userId: "",
+                    userHash: nil,
+                    userName: nil,
+                    userEmail: nil,
+                    phoneNumber: nil)
         }
     }
     
