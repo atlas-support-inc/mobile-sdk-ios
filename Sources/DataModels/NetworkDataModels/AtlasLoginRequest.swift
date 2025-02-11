@@ -13,6 +13,7 @@ struct AtlasLoginRequest: Codable {
     let userHash: String?
     let userName: String?
     let userEmail: String?
+    let phoneNumber: String?
     
     enum CodingKeys: String, CodingKey {
         case appId = "appId"
@@ -20,5 +21,6 @@ struct AtlasLoginRequest: Codable {
         case userHash = "userHash"
         case userName = "name"
         case userEmail = "email"
+        case phoneNumber = "phoneNumber"
     }
 }
