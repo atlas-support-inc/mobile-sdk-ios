@@ -100,12 +100,17 @@ It's possible to pass `query` key to a `getAtlassViewController` to configure th
 **Expected format:** "key1: value1; key2: value2; ...."
 
 ```swift
-    val atlasFragment = AtlasSdk.getAtlasFragment(query = "chatbotKey: report_bug; prefer: last")
+// Initiate fragment and immediately start chatbot with report_bug key (chatbotKey: report_bug), or open the last one if exists (prefer: last)
+val atlasFragmentWithChatbot = AtlasSdk.getAtlasFragment(query = "chatbotKey: report_bug; prefer: last")
+// Initiate fragment and immediately open helpcenter
+val atlasFragmentWithHelpcenter = AtlasSdk.getAtlasFragment(query = "open: helpcenter")
 ```
 
 **`chatbotKey: KEY`** Specifies the chatbot that has to be started immediately when AtlasFragment is loaded
 
 **`prefer: last`** Instead of starting new chatbot everytime it will open the last not completed chatbot if exists
+
+**`open: helpcenter`** Starts widget with HelpCenter screen
 
 ---
 
