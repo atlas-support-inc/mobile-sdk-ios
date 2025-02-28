@@ -12,6 +12,8 @@ public protocol AtlasSDKDelegate: AnyObject {
     /// The appId is empty by default and must
     /// be set before using getAtlasViewController() or any other public methods.
     internal static var appId: String = ""
+    /// See AtlasWebSocketService `connect` function for  isWebSocketDisabled usage
+    internal static var isWebSocketDisabled: Bool = false
     private static var viewController: AtlasViewController?
     
     private static let atlasUserService = AtlasUserService()
@@ -75,6 +77,14 @@ public protocol AtlasSDKDelegate: AnyObject {
                     userEmail: nil,
                     phoneNumber: nil)
         }
+    }
+    
+    static func setWebSocketDisabled() {
+        isWebSocketDisabled = true
+    }
+    
+    static func setWebSocketEnabled() {
+        isWebSocketDisabled = false
     }
     
 /// Coming in future versions
