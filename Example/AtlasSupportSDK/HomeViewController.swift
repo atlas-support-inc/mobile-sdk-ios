@@ -33,7 +33,8 @@ class HomeViewController: UIViewController {
     
     @objc private func chatButtonAction() {
 //        let botID = botIDTextField.text ?? ""
-        let query = "chatbotKey: n_other_topics; prefer: last"
+        // let query = "chatbotKey: n_other_topics; prefer: last"
+        let query = "open: helpcenter"
         guard let atlassViewController = AtlasSDK.getAtlassViewController(query: query) else {
             print("HomeViewController Error: Can not create AtlasSDK View Controller")
             return
