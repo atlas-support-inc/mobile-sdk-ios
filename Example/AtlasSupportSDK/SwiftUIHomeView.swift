@@ -40,14 +40,6 @@ struct SwiftUIHomeView: View {
 struct ModalView: View {
     var body: some View {
         VStack {
-            HStack {
-                Spacer()
-                Button("Dismiss") {
-                    // Handle dismissal (automatically dismissed on swipe down)
-                }
-                .frame(height: 40, alignment: .trailing)
-                .padding(.trailing, 16)
-            }
             ModalViewControllerWrapper()
         }
     }

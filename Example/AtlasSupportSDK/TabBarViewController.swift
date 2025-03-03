@@ -33,9 +33,9 @@ class TabBarController: UITabBarController {
     private func setupTabs() {
         let homeViewController = HomeViewController()
         let swiftUIHomeViewController = UIHostingController(rootView: SwiftUIHomeView())
-//        swiftUIHomeViewController.tabBarItem = UITabBarItem(title: "SwiftUI",
-//                                                            image: UIImage(systemName: "hexagongrid.circle"),
-//                                                            tag: 2)
+        swiftUIHomeViewController.tabBarItem = UITabBarItem(title: "SwiftUI",
+                                                            image: UIImage(systemName: "message.circle"),
+                                                            tag: 2)
         swiftUIHomeViewController.title = "SwiftUI"
         
         
