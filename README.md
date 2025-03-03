@@ -6,6 +6,21 @@
 
 ## Installation
 
+### SPM
+
+1. Open Xcode & Add the SDK
+2. Open your Xcode project.
+3. Go to File → Add Packages.
+4. In the search bar, enter the repository URL of the SDK:
+
+```
+https://github.com/your-org/your-sdk.git
+```
+
+5. Select the SDK package from the list.
+6. Click Add Package. Do not forget "Add to Target".
+7. Choose Dependency Rule (e.g., "Up to Next Major Version" or "Exact Version").
+
 ### CocoaPods
 
 Add the SDK to your `Podfile`:
