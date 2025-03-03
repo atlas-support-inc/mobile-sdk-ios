@@ -14,7 +14,7 @@
 4. In the search bar, enter the repository URL of the SDK:
 
 ```
-https://github.com/your-org/your-sdk.git
+https://github.com/atlas-support-inc/mobile-sdk-ios
 ```
 
 5. Select the SDK package from the list.
