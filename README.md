@@ -96,7 +96,7 @@ struct ChatView: View {
     var body: some View {
         VStack {
             if let atlassSwifUIView = AtlasSDK.getAtlassSwiftUIView() {
-                chatView
+                atlassSwifUIView
             } else {
                 Text("Unable to load chat. Ensure App ID is set.")
             }
