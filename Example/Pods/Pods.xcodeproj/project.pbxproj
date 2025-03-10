@@ -45,6 +45,7 @@
 		3E97A584E7FDD55A6AC072DB23043FCC /* SourceLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E64AE917D5700D3212AB976E9F81B24 /* SourceLocation.swift */; settings = {COMPILER_FLAGS = "-DPRODUCT_NAME=Nimble/Nimble"; }; };
 		3FA8E6AEBD8687BF75B467C33ADF0045 /* CwlCatchException.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83DB2FDCF978EEDF2D2D29B959D29A9 /* CwlCatchException.swift */; settings = {COMPILER_FLAGS = "-DPRODUCT_NAME=Nimble/Nimble"; }; };
 		40D9B846E5A8AF781C0A0C41FED0E0F8 /* BeGreaterThanOrEqualTo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE669A1BDDE1D1C90673E95B22A92D9 /* BeGreaterThanOrEqualTo.swift */; settings = {COMPILER_FLAGS = "-DPRODUCT_NAME=Nimble/Nimble"; }; };
+		42C35F5D2D7F396100DB7FAC /* AtlasSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C35F5C2D7F394B00DB7FAC /* AtlasSwiftUIView.swift */; };
 		48C10B9A539A0C5ABB40C060BCFA6A5D /* QuickTestObservation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887758EE2D86731E64552DE35DC0035B /* QuickTestObservation.swift */; };
 		4A457767C9968D139BD8AAD877DFC117 /* ThrowError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1C96AA6B530E65DF71C6A98C66BAB4 /* ThrowError.swift */; settings = {COMPILER_FLAGS = "-DPRODUCT_NAME=Nimble/Nimble"; }; };
 		4AB3E5CA752435B21E7EBC018EE8CE58 /* ExampleMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7257CDD5305E867BF5296DC8E03BF3F6 /* ExampleMetadata.swift */; };
@@ -219,6 +220,7 @@
 		3F4B7A42760F95D50987E42BD6E399CD /* Quick.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Quick.release.xcconfig; sourceTree = "<group>"; };
 		3FE3C6B0EF06A5BDC213259D5F03B1B7 /* BeLessThan.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BeLessThan.swift; path = Sources/Nimble/Matchers/BeLessThan.swift; sourceTree = "<group>"; };
 		41ED7710C8C7101F486AAFBC6FA9B0AA /* BeIdenticalTo.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BeIdenticalTo.swift; path = Sources/Nimble/Matchers/BeIdenticalTo.swift; sourceTree = "<group>"; };
+		42C35F5C2D7F394B00DB7FAC /* AtlasSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtlasSwiftUIView.swift; sourceTree = "<group>"; };
 		4977C03AA08BF70BC23D3984A67F133D /* AtlasWebViewMessage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AtlasWebViewMessage.swift; sourceTree = "<group>"; };
 		49F8CA88127A8935578B7573C60F55B2 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		4A68929567C7B44CBB5DE74D57741AB4 /* Pods-AtlasSupportSDK_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AtlasSupportSDK_Tests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -474,6 +476,14 @@
 			path = LocalStorage;
 			sourceTree = "<group>";
 		};
+		42C35F5B2D7F38F700DB7FAC /* SwiftUI */ = {
+			isa = PBXGroup;
+			children = (
+				42C35F5C2D7F394B00DB7FAC /* AtlasSwiftUIView.swift */,
+			);
+			path = SwiftUI;
+			sourceTree = "<group>";
+		};
 		48E644B71AAE30F7A0800A3E597207D1 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -539,6 +549,7 @@
 		9A16E00116629DC748046097B2446131 /* AtlasView */ = {
 			isa = PBXGroup;
 			children = (
+				42C35F5B2D7F38F700DB7FAC /* SwiftUI */,
 				BEF443A71069FF2A3731CA8759C314F3 /* AtlasViewController.swift */,
 				EEA207755D474DD946F1FDD06EC0189B /* AtlasViewModel.swift */,
 			);
@@ -1012,6 +1023,7 @@
 				003B0435E8B8014E6A005B6ADB528FCF /* AtlasLoginRequest.swift in Sources */,
 				63E6BC83762D89896DE4FEB71F1CC8F0 /* AtlasLoginResponse.swift in Sources */,
 				DB91DDB06C6BA91444E757AD0469396C /* AtlasNetworkError.swift in Sources */,
+				42C35F5D2D7F396100DB7FAC /* AtlasSwiftUIView.swift in Sources */,
 				22A60773BC63D81882A67C690C5DF5F6 /* AtlasNetworkService.swift in Sources */,
 				992784283F94FC567626A2E7F99E2C30 /* AtlasNetworkURLs.swift in Sources */,
 				7435E3CC482FE8CC29F3A4A5473328D5 /* AtlasSDK.swift in Sources */,

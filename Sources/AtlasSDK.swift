@@ -43,6 +43,24 @@ public protocol AtlasSDKDelegate: AnyObject {
         return viewController
     }
     
+    static public func getAtlassSwiftUIView(query: String = "") -> AtlasSwiftUIView? {
+        guard !appId.isEmpty else {
+            print("AtlasSDK Error: App ID cannot be empty.")
+            return nil
+        }
+        
+        let viewModel = AtlasViewModel(appId: appId,
+                                       userService: atlasUserService)
+        
+        viewModel.query = query
+        let viewController = AtlasViewController(viewModel: viewModel)
+        self.viewController = viewController
+        
+        let swiftUIView = AtlasSwiftUIView(atlassViewController: viewController)
+        
+        return swiftUIView
+    }
+    
     @objc static public func identify(userId: String?,
                                 userHash: String?,
                                 name: String?,

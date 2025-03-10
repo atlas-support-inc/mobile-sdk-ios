@@ -40,20 +40,8 @@ struct SwiftUIHomeView: View {
 struct ModalView: View {
     var body: some View {
         VStack {
-            ModalViewControllerWrapper()
+            AtlasSDK.getAtlassSwiftUIView()
         }
     }
 }
 
-struct ModalViewControllerWrapper: UIViewControllerRepresentable {
-    func makeUIViewController(context: Context) -> UIViewController {
-        guard let atlassViewController = AtlasSDK.getAtlassViewController() else {
-            return UIViewController() // Handle error. For example: Return to previous screen and present alert
-        }
-        return atlassViewController
-    }
-
-    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
-        // You can update the view controller's state here if needed
-    }
-}
