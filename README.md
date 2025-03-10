@@ -85,6 +85,26 @@ guard let atlassViewController = AtlasSDK.getAtlassViewController() else {
 navigationController?.present(atlassViewController, animated: true)
 ```
 
+### Using Atlas in SwiftUI
+
+The `getAtlassSwiftUIView` method allows you to embedded `AtlasSwiftUIView` into your SwiftUI hierarchy.
+
+This function returns an optional `AtlasSwiftUIView`. This occurs if the appId is not provided, which is required for initializing the SDK correctly.
+
+```swift
+struct ChatView: View {
+    var body: some View {
+        VStack {
+            if let atlassSwifUIView = AtlasSDK.getAtlassSwiftUIView() {
+                atlassSwifUIView
+            } else {
+                Text("Unable to load chat. Ensure App ID is set.")
+            }
+        }
+    }
+}
+```
+
 ---
 
 ### User Identification 

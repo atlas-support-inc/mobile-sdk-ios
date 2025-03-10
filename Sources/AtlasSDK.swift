@@ -1,4 +1,5 @@
 import WebKit
+import SwiftUI
 
 public protocol AtlasSDKDelegate: AnyObject {
     func onError(message: String)
@@ -28,6 +29,24 @@ public protocol AtlasSDKDelegate: AnyObject {
     }
             
     @objc static public func getAtlassViewController(query: String = "") -> UIViewController? {
+        guard
+            !appId.isEmpty,
+            let swiftUIview = getAtlassSwiftUIView(query: query)
+        else {
+            print("AtlasSDK Error: App ID cannot be empty.")
+            return nil
+        }
+        
+        /// We wrap `UIViewController` into a SwiftUI view and then wrap that SwiftUI view inside a `UIHostingController` (which is a `UIViewController`).
+        /// This ensures that headers are correctly preserved when rendering web content inside a `WKWebView`.
+        /// When a `WKWebView` is embedded directly inside a `UIViewController`, there can be issues with missing headers, especially when handling keyboard apearance scroll.
+        /// However, when using SwiftUI, this issue does not occur.
+        let viewController = UIHostingController(rootView: swiftUIview)
+        
+        return viewController
+    }
+    
+    static public func getAtlassSwiftUIView(query: String = "") -> AtlasSwiftUIView? {
         guard !appId.isEmpty else {
             print("AtlasSDK Error: App ID cannot be empty.")
             return nil
@@ -40,7 +59,9 @@ public protocol AtlasSDKDelegate: AnyObject {
         let viewController = AtlasViewController(viewModel: viewModel)
         self.viewController = viewController
         
-        return viewController
+        let swiftUIView = AtlasSwiftUIView(atlassViewController: viewController)
+        
+        return swiftUIView
     }
     
     @objc static public func identify(userId: String?,
