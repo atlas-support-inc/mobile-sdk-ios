@@ -32,12 +32,12 @@ struct SwiftUIHomeView: View {
         }
         .sheet(isPresented: $showModal) {
             // Modal view content
-            ModalView()
+            SwiftUIView()
         }
     }
 }
 
-struct ModalView: View {
+struct SwiftUIView: View {
     var body: some View {
         VStack {
             AtlasSDK.getAtlassSwiftUIView()
