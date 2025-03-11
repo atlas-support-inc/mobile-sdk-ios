@@ -6,90 +6,97 @@
 
 ## Installation
 
+You can add Swift SDK to your application in two ways: via **SPM** or **CocoaPods**.
+
 ### SPM
 
-1. Open Xcode & Add the SDK
-2. Open your Xcode project.
-3. Go to File → Add Packages.
-4. In the search bar, enter the repository URL of the SDK:
+In the Xcode, when your project is opened, select **File → Add Package Dependencies...**
+
+In the the opened window enter URL of the Atlas SDK in the search bar:
 
 ```
 https://github.com/atlas-support-inc/mobile-sdk-ios
 ```
 
-5. Select the SDK package from the list.
-6. Click Add Package. Do not forget "Add to Target".
-7. Choose Dependency Rule (e.g., "Up to Next Major Version" or "Exact Version").
+Select the **AtlasSupportSDK** from the search results, configure **Dependency Rule** and **Add to Project** settings, and click **Add Package** button.
 
 ### CocoaPods
 
-Add the SDK to your `Podfile`:
+In your project add **AtlasSupportSDK** dependency to the **Podfile**:
 
-```ruby
+```swift
 platform :ios, '13.0'
 use_frameworks!
 
 target 'YourApp' do
-  pod 'AtlasSupportSDK', '~> 0.0.6'
+  pod 'AtlasSupportSDK', '~> 0.1.2'
 end
 ```
 
-Run the following command in your terminal:
+Pull CocoaPods dependencies:
 
-```bash
+```
 pod install
 ```
 
-Open the `.xcworkspace` file in Xcode.
-
 ---
 
-## Usage
+## Setup
 
-### Import the SDK
-
-In any file where you want to use the SDK, import it:
+Import the package into your code:
 
 ```swift
 import AtlasSupportSDK
 ```
 
-In this example, we import the SDK into HomeViewController and TabBarController because these are the two navigation points leading to the AtlasViewController.
-
----
-
-### Initialize and Configure the SDK
-
-Call the appropriate initialization and configuration methods erly. Depends on your app architecture.
-
-For example:
+Connect the SDK to your account:
 
 ```swift
 AtlasSDK.setAppId("YOUR_APP_ID")
 ```
 
-You can find `YOUR_APP_ID` in the Atlas application: https://app.atlas.so/settings/company
-
 ---
 
-### Presenting the Atlas Chat ViewController
+## Identify your users
 
-The `getAtlassViewController` method can return an optional value. This occurs if the appId is not provided, which is required for initializing the SDK correctly.
+Make the following call with user details wherever a user logs into your application and you get the user details for the first time.
+
+```swift
+AtlasSDK.identify(userId: "...",
+    userHash: nil,
+    name: "...",
+    email: "...",
+    phoneNumber: "...")
+```
+
+To make sure scammer can't spoof a user, you should pass a `userHash` into identify call (read more about it here).
+
+Unknown properties, like `name` or `phoneNumber` should be set to nil (not empty string) so they won't be overriden if they have previously been stored.
+
+When you want to update the user's details you can call `identify` method again.
+
+Additionally, there is a `logout` method available to clear the user's session when they log out of your application.
+
+```swift
+AtlasSDK.logout()
+```
+
+## Show UI
+
+To use Atlas UI you need to get instance of the view controller and insert it into your view:
 
 ```swift
 guard let atlassViewController = AtlasSDK.getAtlassViewController() else {
-    print("HomeViewController Error: Can not create AtlasSDK View Controller")
+    print("Can not create AtlasSDK View Controller")
     return
 }
   
-navigationController?.present(atlassViewController, animated: true)
+navigationController.present(atlassViewController, animated: true)
 ```
 
-### Using Atlas in SwiftUI
+### SwiftUI 
 
 The `getAtlassSwiftUIView` method allows you to embedded `AtlasSwiftUIView` into your SwiftUI hierarchy.
-
-This function returns an optional `AtlasSwiftUIView`. This occurs if the appId is not provided, which is required for initializing the SDK correctly.
 
 ```swift
 struct ChatView: View {
@@ -98,54 +105,27 @@ struct ChatView: View {
             if let atlassSwifUIView = AtlasSDK.getAtlassSwiftUIView() {
                 atlassSwifUIView
             } else {
-                Text("Unable to load chat. Ensure App ID is set.")
+                Text("Can not create AtlasSDK View")
             }
         }
     }
 }
 ```
 
----
+### Configuring view 
 
-### User Identification 
-
-The Atlas SDK allows the chat to operate without identification. In this case, conversations are initiated without associating them with a specific customer. However, developers can link conversations to existing customer by calling the `identify` method with a valid user ID.
+You can configure how does Atlas UI looks like on the [Chat Configuration page](https://app.atlas.so/configuration/chat). You can also configure the behavior of Atlas UI with the query parameter:
 
 ```swift
-// Identify a user before presenting the chat
-AtlasSDK.identify(userId: "UNIQUE_USER_IDENTIFIER", 
-                  userHash: nil, // Required if authenication is enabled in Atlas Configuration
-                  userName: "John Doe", // Optional
-                  userEmail: "john.doe@example.com") // Optional
+// Start chat with help center opened
+let atlassViewControllerWithHelpCenter = AtlasSDK.getAtlassViewController(query: "open: helpcenter")
 
-// Proceed to present the chat
-if let chatViewController = AtlasSDK.getAtlassViewController() {
-    navigationController?.present(chatViewController, animated: true)
-}
+// Start chat with the new chatbot
+let atlassViewControllerWithChatbot = AtlasSDK.getAtlassViewController(query: "chatbotKey: report_bug")
+
+// Start chat with last opened chatbot if exists
+let atlassViewControllerWithChatbot = AtlasSDK.getAtlassViewController(query: "chatbotKey: report_bug; prefer: last")
 ```
-
----
-
-### Customization 
-
-It's possible to pass `query` key to a `getAtlassViewController` to configure the behavior or content of the returned AtlasFragment. (For ex: open specified chatbot to handle possible customer request)
-
-**Default value:** "" (empty string).
-
-**Expected format:** "key1: value1; key2: value2; ...."
-
-```swift
-// Initiate fragment and immediately start chatbot with report_bug key (chatbotKey: report_bug), or open the last one if exists (prefer: last)
-val atlasFragmentWithChatbot = AtlasSdk.getAtlasFragment(query = "chatbotKey: report_bug; prefer: last")
-// Initiate fragment and immediately open helpcenter
-val atlasFragmentWithHelpcenter = AtlasSdk.getAtlasFragment(query = "open: helpcenter")
-```
-
-**`chatbotKey: KEY`** Specifies the chatbot that has to be started immediately when AtlasFragment is loaded
-
-**`prefer: last`** Instead of starting new chatbot everytime it will open the last not completed chatbot if exists
-
-**`open: helpcenter`** Starts widget with HelpCenter screen
 
 ---
 
