@@ -1,8 +1,11 @@
 # AtlasSupportSDK
 
-**AtlasSupportSDK** is a mobile SDK that integrates a real-time chat widget into iOS applications. 
+[![Version](https://img.shields.io/cocoapods/v/AtlasSupportSDK.svg?style=flat)](https://cocoapods.org/pods/AtlasSupportSDK)
+[![License](https://img.shields.io/cocoapods/l/AtlasSupportSDK.svg?style=flat)](https://cocoapods.org/pods/AtlasSupportSDK)
+[![Platform](https://img.shields.io/cocoapods/p/AtlasSupportSDK.svg?style=flat)](https://cocoapods.org/pods/AtlasSupportSDK)
 
----
+
+**AtlasSupportSDK** is a mobile SDK that integrates a real-time chat widget into iOS applications. 
 
 ## Installation
 
@@ -10,21 +13,21 @@ You can add Swift SDK to your application in two ways: via **SPM** or **CocoaPod
 
 ### SPM
 
-In the Xcode, when your project is opened, select **File → Add Package Dependencies...**
+1. In the Xcode, when your project is opened, select **File → Add Package Dependencies...**
 
-In the the opened window enter URL of the Atlas SDK in the search bar:
+2. In the opened window enter URL of the Atlas SDK in the search bar:
 
 ```
 https://github.com/atlas-support-inc/mobile-sdk-ios
 ```
 
-Select the **AtlasSupportSDK** from the search results, configure **Dependency Rule** and **Add to Project** settings, and click **Add Package** button.
+3. Select the **AtlasSupportSDK** from the search results, configure **Dependency Rule** and **Add to Project** settings, and click **Add Package** button.
 
 ### CocoaPods
 
-In your project add **AtlasSupportSDK** dependency to the **Podfile**:
+1. In your project add **AtlasSupportSDK** dependency to the **Podfile**:
 
-```swift
+```ruby
 platform :ios, '13.0'
 use_frameworks!
 
@@ -33,13 +36,13 @@ target 'YourApp' do
 end
 ```
 
-Pull CocoaPods dependencies:
+2. Pull CocoaPods dependencies:
 
-```
+```sh
 pod install
 ```
 
----
+3. Open the **.xcworkspace** file in Xcode.
 
 ## Setup
 
@@ -49,13 +52,13 @@ Import the package into your code:
 import AtlasSupportSDK
 ```
 
-Connect the SDK to your account:
+Connect the SDK to your account (you can find your App ID in the [Atlas company settings](https://app.atlas.so/settings/company)):
 
 ```swift
 AtlasSDK.setAppId("YOUR_APP_ID")
 ```
 
----
+**ℹ️ It's crucial to execute this code at the app's launch, as SDK functionality will be unavailable otherwise.**
 
 ## Identify your users
 
@@ -81,22 +84,11 @@ Additionally, there is a `logout` method available to clear the user's session w
 AtlasSDK.logout()
 ```
 
-## Show UI
+## Atlas Widget
 
-To use Atlas UI you need to get instance of the view controller and insert it into your view:
+### Within SwiftUI
 
-```swift
-guard let atlassViewController = AtlasSDK.getAtlassViewController() else {
-    print("Can not create AtlasSDK View Controller")
-    return
-}
-  
-navigationController.present(atlassViewController, animated: true)
-```
-
-### SwiftUI 
-
-The `getAtlassSwiftUIView` method allows you to embedded `AtlasSwiftUIView` into your SwiftUI hierarchy.
+The `getAtlassSwiftUIView` method allows you to embed `AtlasSwiftUIView` into your SwiftUI hierarchy to display Atlas Chat.
 
 ```swift
 struct ChatView: View {
@@ -110,6 +102,19 @@ struct ChatView: View {
         }
     }
 }
+```
+
+### Within UIKit
+
+To display Atlas Chat using UIKit you need to get instance of the view controller and insert it into your view:
+
+```swift
+guard let atlassViewController = AtlasSDK.getAtlassViewController() else {
+    print("Can not create AtlasSDK View Controller")
+    return
+}
+  
+navigationController.present(atlassViewController, animated: true)
 ```
 
 ### Configuring view 
@@ -127,9 +132,7 @@ let atlassViewControllerWithChatbot = AtlasSDK.getAtlassViewController(query: "c
 let atlassViewControllerWithChatbot = AtlasSDK.getAtlassViewController(query: "chatbotKey: report_bug; prefer: last")
 ```
 
----
-
-### Handling AtlasSDK Events and Delegates
+## Handling AtlasSDK Events and Delegates
 
 The AtlasSDK provides a flexible way to handle chat events through both delegates and closures. These mechanisms allow developers to respond to various chat-related events, such as errors, ticket creation, or conversation updates, in a structured manner.
 
@@ -151,13 +154,10 @@ AtlasSDK.removeOnNewTicketHandler(atlasOnNewTicketHandler)  // Remove ticket han
 AtlasSDK.removeOnNewTicketHandler(atlasStatsUpdateHandler)  // Remove stats update handler
 ```
 
-
 ## Requirements
 
 - iOS 13.0 or later.
 - Swift 4.0 or later.
-
----
 
 ## Support
 
@@ -165,12 +165,6 @@ For issues or feature requests, contact the engineering team at [engineering@get
 
 For more details, visit the official [Atlas Support website](https://atlas.so).
 
----
-
-[![Version](https://img.shields.io/cocoapods/v/AtlasSupportSDK.svg?style=flat)](https://cocoapods.org/pods/AtlasSupportSDK)
-[![License](https://img.shields.io/cocoapods/l/AtlasSupportSDK.svg?style=flat)](https://cocoapods.org/pods/AtlasSupportSDK)
-[![Platform](https://img.shields.io/cocoapods/p/AtlasSupportSDK.svg?style=flat)](https://cocoapods.org/pods/AtlasSupportSDK)
-
 ## Author
 
-Atlas Support Inc, engineering@getatlas.io
+Atlas Support Inc, engineering@atlas.so
