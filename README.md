@@ -13,7 +13,7 @@ You can add Swift SDK to your application in two ways: via **SPM** or **CocoaPod
 
 ### SPM
 
-1. In the Xcode, when your project is opened, select **File → Add Package Dependencies...**
+1. Open your project in Xcode and select **File → Add Package Dependencies...**
 
 2. In the opened window enter URL of the Atlas SDK in the search bar:
 
@@ -21,7 +21,11 @@ You can add Swift SDK to your application in two ways: via **SPM** or **CocoaPod
 https://github.com/atlas-support-inc/mobile-sdk-ios
 ```
 
-3. Select the **AtlasSupportSDK** from the search results, configure **Dependency Rule** and **Add to Project** settings, and click **Add Package** button.
+3. Select **AtlasSupportSDK** from the search results
+4. Configure **Dependency Rule**'s
+5. Select **YourProject** in **Add to Project** settings
+6. Add SDK to **YourTarget**
+7. Finally click **Add Package** button
 
 ### CocoaPods
 
@@ -122,13 +126,13 @@ navigationController.present(atlassViewController, animated: true)
 You can configure how does Atlas UI looks like on the [Chat Configuration page](https://app.atlas.so/configuration/chat). You can also configure the behavior of Atlas UI with the query parameter:
 
 ```swift
-// Start chat with help center opened
+// Initialize chat with help center opened
 let atlassViewControllerWithHelpCenter = AtlasSDK.getAtlassViewController(query: "open: helpcenter")
 
-// Start chat with the new chatbot
+// Initialize chat with the new chatbot
 let atlassViewControllerWithChatbot = AtlasSDK.getAtlassViewController(query: "chatbotKey: report_bug")
 
-// Start chat with last opened chatbot if exists
+// Initialize chat with last opened chatbot if exists
 let atlassViewControllerWithChatbot = AtlasSDK.getAtlassViewController(query: "chatbotKey: report_bug; prefer: last")
 ```
 
