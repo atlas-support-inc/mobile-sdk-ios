@@ -31,6 +31,8 @@ class AtlasWebSocketService: NSObject, WebSocketConnection, URLSessionWebSocketD
     private let webSocketMessageParser = AtlasWebSocketMessageParser()
     
     func connect(atlasId: String) {
+        if AtlasSDK.isWebSocketDisabled { return }
+        
         var urlComponents = URLComponents()
         urlComponents.scheme = AtlasNetworkURLs.ATLAS_WEB_SOCKET_SCHEME
         urlComponents.host = AtlasNetworkURLs.ATLAS_WEB_SOCKET_BASE_URL
